@@ -1,0 +1,158 @@
+diff --git a/build/vc10/glew_shared.vcxproj b/build/vc10/glew_shared.vcxproj
+index 3a2a97a..69f53db 100644
+--- a/build/vc10/glew_shared.vcxproj
++++ b/build/vc10/glew_shared.vcxproj
+@@ -21,23 +21,30 @@
+   <PropertyGroup Label="Globals">
+     <SccProjectName />
+     <SccLocalPath />
++    <ProjectGuid>{0FA94D0F-8443-43D9-82E8-DFB00E657342}</ProjectGuid>
++    <TargetPlatformVersion>8.1</TargetPlatformVersion>
++    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+     <ConfigurationType>DynamicLibrary</ConfigurationType>
+     <UseOfMfc>false</UseOfMfc>
++    <PlatformToolset>v140</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MX|Win32'" Label="Configuration">
+     <ConfigurationType>DynamicLibrary</ConfigurationType>
+     <UseOfMfc>false</UseOfMfc>
++    <PlatformToolset>v140</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+     <ConfigurationType>DynamicLibrary</ConfigurationType>
+     <UseOfMfc>false</UseOfMfc>
++    <PlatformToolset>v140</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MX|Win32'" Label="Configuration">
+     <ConfigurationType>DynamicLibrary</ConfigurationType>
+     <UseOfMfc>false</UseOfMfc>
++    <PlatformToolset>v140</PlatformToolset>
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+   <ImportGroup Label="ExtensionSettings">
+@@ -60,26 +67,26 @@
+   </ImportGroup>
+   <PropertyGroup Label="UserMacros" />
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MX|Win32'">
+-    <OutDir>../../bin/</OutDir>
+-    <IntDir>shared/release_mx/</IntDir>
++    <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
+     <LinkIncremental>false</LinkIncremental>
+     <TargetName>glew32mx</TargetName>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+-    <OutDir>../../bin/</OutDir>
+-    <IntDir>shared/release/</IntDir>
++    <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
+     <LinkIncremental>false</LinkIncremental>
+     <TargetName>glew32</TargetName>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MX|Win32'">
+-    <OutDir>../../bin/</OutDir>
+-    <IntDir>shared/debug_mx/</IntDir>
++    <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
+     <LinkIncremental>false</LinkIncremental>
+     <TargetName>glew32mxd</TargetName>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+-    <OutDir>../../bin/</OutDir>
+-    <IntDir>shared/debug/</IntDir>
++    <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
++    <IntDir>$(SolutionDir)\build\$(ProjectName)\$(Configuration)\</IntDir>
+     <LinkIncremental>false</LinkIncremental>
+     <TargetName>glew32d</TargetName>
+   </PropertyGroup>
+@@ -98,6 +105,8 @@
+       <PrecompiledHeaderOutputFile>.\shared/release-mx\glew_shared.pch</PrecompiledHeaderOutputFile>
+       <ObjectFileName>.\shared/release-mx\</ObjectFileName>
+       <ProgramDataBaseFileName>.\shared/release-mx\</ProgramDataBaseFileName>
++      <CallingConvention>StdCall</CallingConvention>
++      <CompileAs>CompileAsCpp</CompileAs>
+     </ClCompile>
+     <Midl>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+@@ -118,7 +127,7 @@
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+       <LinkDLL>true</LinkDLL>
+       <SubSystem>Console</SubSystem>
+-      <OutputFile>../../bin/glew32mx.dll</OutputFile>
++      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+       <ImportLibrary>.\../../lib\glew32mx.lib</ImportLibrary>
+       <BaseAddress>0x62AA0000</BaseAddress>
+       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -140,6 +149,8 @@
+       <PrecompiledHeaderOutputFile>.\shared/release\glew_shared.pch</PrecompiledHeaderOutputFile>
+       <ObjectFileName>.\shared/release\</ObjectFileName>
+       <ProgramDataBaseFileName>.\shared/release\</ProgramDataBaseFileName>
++      <CallingConvention>StdCall</CallingConvention>
++      <CompileAs>CompileAsCpp</CompileAs>
+     </ClCompile>
+     <Midl>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+@@ -160,7 +171,7 @@
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+       <LinkDLL>true</LinkDLL>
+       <SubSystem>Console</SubSystem>
+-      <OutputFile>../../bin/glew32.dll</OutputFile>
++      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+       <ImportLibrary>.\../../lib\glew32.lib</ImportLibrary>
+       <BaseAddress>0x62AA0000</BaseAddress>
+       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -182,6 +193,8 @@
+       <ObjectFileName>.\shared/debug-mx\</ObjectFileName>
+       <ProgramDataBaseFileName>.\shared/debug-mx\</ProgramDataBaseFileName>
+       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <CallingConvention>StdCall</CallingConvention>
++      <CompileAs>CompileAsCpp</CompileAs>
+     </ClCompile>
+     <Midl>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+@@ -203,7 +216,7 @@
+       <LinkDLL>true</LinkDLL>
+       <GenerateDebugInformation>true</GenerateDebugInformation>
+       <SubSystem>Console</SubSystem>
+-      <OutputFile>../../bin/glew32mxd.dll</OutputFile>
++      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+       <ImportLibrary>.\../../lib\glew32mxd.lib</ImportLibrary>
+       <BaseAddress>0x62AA0000</BaseAddress>
+       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -224,6 +237,8 @@
+       <ObjectFileName>.\shared/debug\</ObjectFileName>
+       <ProgramDataBaseFileName>.\shared/debug\</ProgramDataBaseFileName>
+       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <CallingConvention>StdCall</CallingConvention>
++      <CompileAs>CompileAsCpp</CompileAs>
+     </ClCompile>
+     <Midl>
+       <SuppressStartupBanner>true</SuppressStartupBanner>
+@@ -245,7 +260,7 @@
+       <LinkDLL>true</LinkDLL>
+       <GenerateDebugInformation>true</GenerateDebugInformation>
+       <SubSystem>Console</SubSystem>
+-      <OutputFile>../../bin/glew32d.dll</OutputFile>
++      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+       <ImportLibrary>.\../../lib\glew32d.lib</ImportLibrary>
+       <BaseAddress>0x62AA0000</BaseAddress>
+       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+diff --git a/build/vc10/glew_shared.vcxproj.filters b/build/vc10/glew_shared.vcxproj.filters
+index e3e39db..40c171b 100644
+--- a/build/vc10/glew_shared.vcxproj.filters
++++ b/build/vc10/glew_shared.vcxproj.filters
+@@ -27,8 +27,8 @@
+     </ClInclude>
+   </ItemGroup>
+   <ItemGroup>
+-    <ResourceCompile Include="glew.rc">
+-      <Filter>Resource Files</Filter>
++    <ResourceCompile Include="..\glew.rc">
++      <Filter>Source Files</Filter>
+     </ResourceCompile>
+   </ItemGroup>
+ </Project>
+\ No newline at end of file

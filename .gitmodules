@@ -1,0 +1,3 @@
+[submodule "dependcies/glew"]
+   path = dependcies/glew
+   ignore = dirty
