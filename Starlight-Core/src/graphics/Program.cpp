@@ -62,33 +62,11 @@ namespace starlight{
 				glUseProgram(0);
 			}
 
-			STARLIGHT_INT Program::getUniformLocation(const STARLIGHT_CHAR* name){
+			STARLIGHT_INT Program::getUniformLocation(const STARLIGHT_CHAR* name)const{
 				return glGetUniformLocation(programID,name);
 			}
 
-			void Program::setUniform1f(const STARLIGHT_CHAR* name,STARLIGHT_FLOAT value){
-				glUniform1f(getUniformLocation(name),value);
-			}
-
-			void Program::setUniform1i(const STARLIGHT_CHAR* name,STARLIGHT_INT value){
-				glUniform1i(getUniformLocation(name),value);
-			}
-
-			void Program::setUniform2f(const STARLIGHT_CHAR* name,const Vec2& vector){
-				glUniform2f(getUniformLocation(name),vector.data.x,vector.data.y);
-			}
-
-			void Program::setUniform3f(const STARLIGHT_CHAR* name,const Vec3& vector){
-				glUniform3f(getUniformLocation(name),vector.data.x,vector.data.y,vector.data.z);
-			}
-
-			void Program::setUniform4f(const STARLIGHT_CHAR* name,const Vec4& vector){
-				glUniform4f(getUniformLocation(name),vector.data.x,vector.data.y,vector.data.z,vector.data.w);
-			}
-
-			void Program::setUniformMat4(const STARLIGHT_CHAR* name,const Matrix4& matrix){
-				glUniformMatrix4fv(getUniformLocation(name),1,GL_FALSE,matrix.data_array);
-			}
+			
 		}
 	}
 }

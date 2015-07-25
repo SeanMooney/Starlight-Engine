@@ -30,14 +30,41 @@ namespace starlight{
 				void compile();
 				void enable();
 				void disable();
-				STARLIGHT_INT getUniformLocation(const STARLIGHT_CHAR* name);
-				void setUniform1f(const STARLIGHT_CHAR* name,STARLIGHT_FLOAT value);
-				void setUniform1i(const STARLIGHT_CHAR* name,STARLIGHT_INT value);
-				void setUniform2f(const STARLIGHT_CHAR* name,const Vec2& vector);
-				void setUniform3f(const STARLIGHT_CHAR* name,const Vec3& vector);
-				void setUniform4f(const STARLIGHT_CHAR* name,const Vec4& vector);
-				void setUniformMat4(const STARLIGHT_CHAR* name,const Matrix4& matrix);
+				STARLIGHT_INT getUniformLocation(const STARLIGHT_CHAR* name)const;
+				
+				template <typename T>
+				void setUniform(const STARLIGHT_CHAR* name,const T& value)const;
 
+				template <>
+				void setUniform(const STARLIGHT_CHAR* name,const STARLIGHT_FLOAT& value)const{
+					glUniform1f(getUniformLocation(name),value);
+				}
+
+				template <>
+				void setUniform(const STARLIGHT_CHAR* name,const STARLIGHT_INT& value)const{
+					glUniform1i(getUniformLocation(name),value);
+				}
+
+				template <>
+				void setUniform(const STARLIGHT_CHAR* name,const Vec2& vector)const{
+					glUniform2f(getUniformLocation(name),vector.data.x,vector.data.y);
+				}
+
+				template <>
+				void setUniform(const STARLIGHT_CHAR* name,const Vec3& vector)const{
+					glUniform3f(getUniformLocation(name),vector.data.x,vector.data.y,vector.data.z);
+				}
+
+				template <>
+				void setUniform(const STARLIGHT_CHAR* name,const Vec4& vector)const{
+					glUniform4f(getUniformLocation(name),vector.data.x,vector.data.y,vector.data.z,vector.data.w);
+				}
+
+				template <>
+				void setUniform(const STARLIGHT_CHAR* name,const Matrix4& matrix)const{
+					glUniformMatrix4fv(getUniformLocation(name),1,GL_FALSE,matrix.data_array);
+				}
+				
 			};
 		}
 	}

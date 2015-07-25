@@ -55,13 +55,13 @@ namespace starlight{
 				program.enable();
 				
 
-				program.setUniformMat4("pr_matrix",ortho);
+				program.setUniform("pr_matrix",ortho);
 				auto translate =Matrix4::translation(Vec3(1,2,0));
-				program.setUniformMat4("ml_matrix",translate);
+				program.setUniform("ml_matrix",translate);
 				auto mousePos=inputManager->getMouseLocation();
 				auto pos=Vec2((float)(mousePos.data.x * 16.0f/window->width),(float)(9.0f-mousePos.data.y * 9.0f/window->height));
-				program.setUniform2f("light_pos",pos);
-				program.setUniform4f("colour",Vec4(0.2f,0.3f,0.8f,1.0f));
+				program.setUniform("light_pos",pos);
+				program.setUniform("colour",Vec4(0.2f,0.3f,0.8f,1.0f));
 				glDrawArrays(GL_TRIANGLES,0,6);
 				glfwSwapBuffers(window->get());
 				
