@@ -206,7 +206,7 @@ namespace starlight{
 				Matrix4()=default;
 				Matrix4(STARLIGHT_PRECISSION diagonal):MatrixBase(diagonal){}
 				
-				static Matrix4&  orthographic(STARLIGHT_PRECISSION left,STARLIGHT_PRECISSION right,
+				static Matrix4  orthographic(STARLIGHT_PRECISSION left,STARLIGHT_PRECISSION right,
 										STARLIGHT_PRECISSION bottom,STARLIGHT_PRECISSION top,
 										STARLIGHT_PRECISSION near,STARLIGHT_PRECISSION far){
 					Matrix4 result(1.0f);
@@ -224,7 +224,7 @@ namespace starlight{
 					return std::move(result);
 				}
 
-				static Matrix4& Matrix4::perspective(float fov,float aspectRatio,float near,float far){
+				static Matrix4 Matrix4::perspective(float fov,float aspectRatio,float near,float far){
 					Matrix4 result(1.0);
 
 					float q=1.0f/tan(toRadians(0.5f * fov));
@@ -242,7 +242,7 @@ namespace starlight{
 					return std::move(result);
 				}
 
-				static Matrix4& Matrix4::translation(const Vec3& translation){
+				static Matrix4 Matrix4::translation(const Vec3& translation){
 					Matrix4 result(1.0);
 
 					result.data_array[0+3*4]=translation.data.x;
@@ -252,7 +252,7 @@ namespace starlight{
 					return std::move(result);
 				}
 
-				static Matrix4& Matrix4::rotation(float angle,const Vec3& axis){
+				static Matrix4 Matrix4::rotation(float angle,const Vec3& axis){
 					Matrix4 result(1.0);
 					float r=toRadians(angle);
 					float c=cos(r);
@@ -278,7 +278,7 @@ namespace starlight{
 					return std::move(result);
 				}
 
-				static Matrix4& Matrix4::scale(const Vec3& scale){
+				static Matrix4 Matrix4::scale(const Vec3& scale){
 					Matrix4 result(1.0);
 
 					result.data_array[0+0*4]=scale.data.x;

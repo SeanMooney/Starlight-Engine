@@ -114,7 +114,7 @@ namespace starlight{
 						else os<<","<<rhs.data_array[i];
 					}
 					os<<"}";
-					return std::move(os);
+					return os;
 				}
 				VecBase<T>(){
 					T& reference(static_cast<T&>(*this));

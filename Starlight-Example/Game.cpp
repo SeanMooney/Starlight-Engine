@@ -53,8 +53,6 @@ namespace starlight{
 				glfwPollEvents();
 				glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 				program.enable();
-				
-
 				program.setUniform("pr_matrix",ortho);
 				auto translate =Matrix4::translation(Vec3(1,2,0));
 				program.setUniform("ml_matrix",translate);
