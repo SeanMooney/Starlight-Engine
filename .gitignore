@@ -4,3 +4,5 @@ build
 Starlight.opensdf
 Starlight.sdf
 .vs/
+ipch/
+packages/

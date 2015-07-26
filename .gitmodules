@@ -1,3 +1,15 @@
 [submodule "dependcies/glew"]
    path = dependcies/glew
    ignore = dirty
+
+[submodule "dependcies/glfw"]
+	path = dependcies/glfw
+	ignore = dirty
+
+[submodule "dependcies/cereal"]
+   path = dependcies/cereal
+   ignore = dirty
+
+[submodule "dependcies/operators"]
+   path = dependcies/operators
+   ignore = dirty
