@@ -18,3 +18,6 @@ Libraries Used:
 operators https://github.com/d-frey/operators.git (Boost Software License - Version 1.0)
 glew https://github.com/nigels-com/glew (BSD License, MIT License)
 glfw https://github.com/glfw/glfw (zlib/libpng license)
+boost https://github.com/boostorg/boost.git (Boost Software License - Version 1.0)
+Chamois https://github.com/evolutional/Chamois.git (apache2)
+cereal https://github.com/USCiLab/cereal.git (BSD License)

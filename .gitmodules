@@ -13,3 +13,11 @@
 [submodule "dependcies/operators"]
    path = dependcies/operators
    ignore = dirty
+
+[submodule "dependcies/Chamois"]
+   path = dependcies/Chamois
+   ignore = dirty
+
+[submodule "dependcies/boost"]
+   path = dependcies/boost
+   ignore = dirty

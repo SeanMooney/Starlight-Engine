@@ -1,16 +1,16 @@
 #define BOOST_TEST_MAIN
-#include <boost/test/included/unit_test.hpp>
-#include <iostream>
+#define __BOOST_TEST_MODULE__ Starlight-Test
+#include "STARLIGHT_TEST\Shared.h"
 #include "STARLIGHT_CORE\Maths\Vec.h"
 
 namespace starlight{
 	namespace test{
-		BOOST_AUTO_TEST_CASE(Test1){
-			using namespace starlight::core::maths;
-			Vec3 a={1,1,1};
-			Vec3 b={ 2,2,2 };
-			Vec3 c={ 3,3,3 };
-			BOOST_REQUIRE_EQUAL((a+b),c);
+		namespace core{
+			namespace maths{
+				BOOST_AUTO_TEST_CASE(Test1){
+					BOOST_REQUIRE(true);
+				}
+			}
 		}
 	}
 }
