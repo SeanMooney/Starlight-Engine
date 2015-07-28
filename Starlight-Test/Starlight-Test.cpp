@@ -5,12 +5,8 @@
 
 namespace starlight{
 	namespace test{
-		namespace core{
-			namespace maths{
-				BOOST_AUTO_TEST_CASE(Test1){
-					BOOST_REQUIRE(true);
-				}
-			}
+		STARLIGHT_TEST_CASE(TEST_BOOST_TEST_FRAMEWORK){
+			BOOST_REQUIRE(true);
 		}
 	}
 }
