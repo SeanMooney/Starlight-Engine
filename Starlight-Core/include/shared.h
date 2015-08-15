@@ -13,6 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.*/
 #pragma once
 #include <string>
+#include <iostream>
 #include "GLEW\GL\glew.h"
 typedef GLuint STARLIGHT_UINT;
 typedef GLint STARLIGHT_INT;
@@ -37,6 +38,12 @@ typedef GLchar STARLIGHT_CHAR;
 #else // outside DLL
 #   define STARLIGHT_DEBUG   0
 #endif  // XYZLIBRARY_EXPORT
+
+#ifndef CLANG
+#define THROW(msg) throw std::exception::exception(msg);
+#else
+#define THROW(msg)  std ::cerr<<msg;  exit(-1);
+#endif
 
 #define _USE_MATH_DEFINES
 #include <math.h>

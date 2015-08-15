@@ -25,18 +25,6 @@ namespace starlight{
 				destroy();
 			}
 
-			void Window::init(int width,int height,const char* title){
-				window=glfwCreateWindow(width,height,title,NULL,NULL);
-				if(!window)
-					throw std::exception::exception("window creation failed");
-				glfwMakeContextCurrent(window);
-				glViewport(0,0,width,height);
-				glfwSetWindowUserPointer(window,this);
-				glfwSetWindowSizeCallback(window,window_size_callback);
-				glfwSwapInterval(0);
-
-			}
-
 			void window_size_callback(GLFWwindow* window,int width,int height){
 				Window* win=static_cast<Window*>(glfwGetWindowUserPointer(window));
 				win->width=width;
@@ -47,6 +35,17 @@ namespace starlight{
 				<< "width: " <<win->width<< ", height:" <<win->height << std::endl;
 			}
 
+			void Window::init(int width,int height,const char* title){
+				window=glfwCreateWindow(width,height,title,NULL,NULL);
+				if(!window)
+					THROW("window creation failed");
+				glfwMakeContextCurrent(window);
+				glViewport(0,0,width,height);
+				glfwSetWindowUserPointer(window,this);
+				glfwSetWindowSizeCallback(window,window_size_callback);
+				glfwSwapInterval(0);
+
+			}
 
 			void Window::destroy(){
 				glfwDestroyWindow(window);

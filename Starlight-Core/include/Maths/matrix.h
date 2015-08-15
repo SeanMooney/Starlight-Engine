@@ -23,7 +23,7 @@ namespace starlight{
 	namespace core{
 		namespace maths{
 			static STARLIGHT_PRECISSION toRadians(STARLIGHT_PRECISSION degress){
-				return degress* M_PI/180;
+				return static_cast<STARLIGHT_PRECISSION>(degress* M_PI/180);
 			}
 
 			template<typename T>
@@ -108,7 +108,7 @@ namespace starlight{
 					return reference;
 				}
 				Vec3 operator*=(const Vec3& rhs) noexcept{
-					T& reference=static_cast<T&>(*this);
+					const T& reference=static_cast<const T&>(*this);
 					return Vec3(
 						reference.data[0].x * rhs.data.x+reference.data[1].x * rhs.data.y+reference.data[2].x * rhs.data.z+reference.data[3].x,
 						reference.data[0].y * rhs.data.x+reference.data[1].y * rhs.data.y+reference.data[2].y * rhs.data.z+reference.data[3].y,
@@ -117,7 +117,7 @@ namespace starlight{
 				}
 
 				Vec4 operator*=(const Vec4& rhs) noexcept{
-					T& reference=static_cast<T&>(*this);
+					const T& reference=static_cast<const T&>(*this);
 					return Vec4(
 						reference.data[0].x * rhs.data.x+reference.data[1].x * rhs.data.y+reference.data[2].x * rhs.data.z+reference.data[3].x * rhs.data.w,
 						reference.data[0].y * rhs.data.x+reference.data[1].y * rhs.data.y+reference.data[2].y * rhs.data.z+reference.data[3].y * rhs.data.w,
@@ -151,7 +151,9 @@ namespace starlight{
 					const T& reference(static_cast<const T&>(*this));
 					bool result=true;
 					for(int i=0; i<T::dimension*T::dimension;i++){
-						result&=reference.data_array[i]==rhs.data_array[i];
+						const STARLIGHT_PRECISSION& a=reference.data_array[i];
+						const STARLIGHT_PRECISSION& b=rhs.data_array[i];
+						result&=fabs(a-b)<std::numeric_limits<STARLIGHT_PRECISSION>::epsilon()*200;
 					}
 					return result;
 				}
@@ -166,7 +168,7 @@ namespace starlight{
 				}
 
 				//stream
-				static friend std::ostream& operator<< (std::ostream& os,const T& rhs){
+				friend std::ostream& operator<< (std::ostream& os,const T& rhs){
 					os<<"matrix:{";
 					for(int i=0; i<T::dimension*T::dimension;i++){
 						if(!i) os<<rhs.data_array[i];
@@ -187,11 +189,16 @@ namespace starlight{
 					for(int i=0; i<T::dimension*T::dimension;i++)
 						reference.data_array[i]=0;
 					for(int i=0; i<T::dimension;i++)
-					reference.data_array[i+i*4]=diagonal;
+					reference.data_array[i+i*T::dimension]=diagonal;
 				}
 
-				static T& identity(){
-					return Matrix4Base(1.0f);
+				MatrixBase<T>(std::initializer_list<STARLIGHT_PRECISSION> l){
+					T& reference(static_cast<T&>(*this));
+					std::copy(l.begin(),l.end(),reference.data_array);
+				}
+
+				static T identity(){
+					return  std::move(T(1.0f));
 				}
 
 			};
@@ -205,6 +212,7 @@ namespace starlight{
 				};
 				Matrix4()=default;
 				Matrix4(STARLIGHT_PRECISSION diagonal):MatrixBase(diagonal){}
+				Matrix4(std::initializer_list<STARLIGHT_PRECISSION> l) :MatrixBase(l){}
 				
 				static Matrix4  orthographic(STARLIGHT_PRECISSION left,STARLIGHT_PRECISSION right,
 										STARLIGHT_PRECISSION bottom,STARLIGHT_PRECISSION top,
@@ -280,14 +288,13 @@ namespace starlight{
 
 				static Matrix4 Matrix4::scale(const Vec3& scale){
 					Matrix4 result(1.0);
-
+					
 					result.data_array[0+0*4]=scale.data.x;
 					result.data_array[1+1*4]=scale.data.y;
 					result.data_array[2+2*4]=scale.data.z;
 
 					return std::move(result);
 				}
-
 
 			};
 

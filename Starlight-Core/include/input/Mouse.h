@@ -44,8 +44,8 @@ namespace starlight{
 				bool dirty=false;
 			private:
 				bool buttons[MouseButtons::MOUSE_BUTTON_LAST+1]={ false };
-				static friend void button_callback(GLFWwindow*,int,int,int);
-				static friend void cursor_callback(GLFWwindow* window,double x,double y);
+				friend void button_callback(GLFWwindow*,int,int,int);
+				friend void cursor_callback(GLFWwindow* window,double x,double y);
 			public:
 				Mouse()=default;
 				~Mouse()=default;

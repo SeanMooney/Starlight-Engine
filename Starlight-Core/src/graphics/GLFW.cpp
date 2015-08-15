@@ -31,7 +31,7 @@ namespace starlight{
 				ret=glfwInit();
 				if(!ret){
 					destroy();
-					throw std::exception::exception(" glfwInit failed");
+					THROW(" glfwInit failed");
 				}
 				glfwSetErrorCallback(error_callback);
 

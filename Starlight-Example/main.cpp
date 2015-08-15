@@ -21,11 +21,11 @@ using namespace starlight::example;
 using namespace starlight::core::maths;
 using namespace std;
 
-void main(int argc,char* args[]){
+int main(int argc,char* args[]){
 
 	Game game(args[0]);
 	game.run();
-
+	return 0;
 	
 	
 }

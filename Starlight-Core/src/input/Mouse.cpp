@@ -19,11 +19,6 @@ namespace starlight{
 		namespace input{
 			std::unordered_map<starlight::core::graphics::Window*,Mouse*> Mouse::mouseMap={};
 
-			void Mouse::registerWindowCallback(starlight::core::graphics::Window* window){
-				mouseMap[window]=this;
-				glfwSetMouseButtonCallback(window->get(),button_callback);
-				glfwSetCursorPosCallback(window->get(),cursor_callback);
-			}
 			/*! @brief The function signature for mouse button callbacks.
 			*  @param[in] window The window that received the event.
 			*  @param[in] button The [mouse button](@ref buttons) that was pressed or
@@ -56,6 +51,11 @@ namespace starlight{
 				m->dirty=true;
 			}
 
+			void Mouse::registerWindowCallback(starlight::core::graphics::Window* window){
+				mouseMap[window]=this;
+				glfwSetMouseButtonCallback(window->get(),button_callback);
+				glfwSetCursorPosCallback(window->get(),cursor_callback);
+			}
 		}
 	}
 }

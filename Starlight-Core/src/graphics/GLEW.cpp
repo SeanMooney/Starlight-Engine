@@ -19,7 +19,7 @@ namespace starlight{
 
 			GLEW::GLEW(){
 				if(glewInit()!=GLEW_OK){
-					throw std::exception::exception(" glewInit failed");
+					THROW(" glewInit failed")
 				}
 			}
 

@@ -93,7 +93,9 @@ namespace starlight{
 					const T& reference(static_cast<const T&>(*this));
 					bool result=true;
 					for(int i=0; i<T::dimension;i++){
-						result&=reference.data_array[i]==rhs.data_array[i];
+						const STARLIGHT_PRECISSION& a=reference.data_array[i];
+						const STARLIGHT_PRECISSION& b=rhs.data_array[i];
+						result&=fabs(a-b)<std::numeric_limits<STARLIGHT_PRECISSION>::epsilon()*10;
 					}
 					return result;
 				}
@@ -107,7 +109,7 @@ namespace starlight{
 					return result;
 				}
 
-				static friend std::ostream& operator<< (std::ostream& os,const T& rhs){
+				friend std::ostream& operator<< (std::ostream& os,const T& rhs){
 					os<<"vec:{";
 					for(int i=0; i<T::dimension;i++){
 						if(!i) os<<rhs.data_array[i];
@@ -121,6 +123,10 @@ namespace starlight{
 					for(int i=0; i<T::dimension;i++)
 						reference.data_array[i]=0;
 				}
+				VecBase<T>(std::initializer_list<STARLIGHT_PRECISSION> l){
+					T& reference(static_cast<T&>(*this));
+					std::copy(l.begin(),l.end(),reference.data_array);
+				}
 
 			};
 
@@ -133,10 +139,12 @@ namespace starlight{
 					} data;
 				};
 				Vec1()=default;
+				Vec1(std::initializer_list<STARLIGHT_PRECISSION> l):VecBase<Vec1>(l){}
 				Vec1(const STARLIGHT_PRECISSION& x)
 					:VecBase<Vec1>(){
 					data.x=x;
 				}
+
 			};
 
 			struct STARLIGHTAPI Vec2 : public VecBase<Vec2>{
@@ -149,6 +157,7 @@ namespace starlight{
 					} data;
 				};
 				Vec2()=default;
+				Vec2(std::initializer_list<STARLIGHT_PRECISSION> l) :VecBase<Vec2>(l){}
 				Vec2(const STARLIGHT_PRECISSION& x,const STARLIGHT_PRECISSION& y)
 					:VecBase<Vec2>(){
 					data.x=x;
@@ -167,6 +176,7 @@ namespace starlight{
 					} data;
 				};
 				Vec3()=default;
+				Vec3(std::initializer_list<STARLIGHT_PRECISSION> l) :VecBase<Vec3>(l){}
 				Vec3(const STARLIGHT_PRECISSION& x,const STARLIGHT_PRECISSION& y,const STARLIGHT_PRECISSION& z)
 					:VecBase<Vec3>(){
 					data.x=x;
@@ -189,6 +199,7 @@ namespace starlight{
 					_Vec4 data;
 				};
 				Vec4()=default;
+				Vec4(std::initializer_list<STARLIGHT_PRECISSION> l) :VecBase<Vec4>(l){}
 				Vec4(const STARLIGHT_PRECISSION& x,const STARLIGHT_PRECISSION& y,const STARLIGHT_PRECISSION& z,const STARLIGHT_PRECISSION& w)
 					:VecBase<Vec4>(){
 					data.x=x;

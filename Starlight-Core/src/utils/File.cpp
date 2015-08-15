@@ -29,7 +29,7 @@ namespace starlight{
 				Error error;
 				error<<"failed to read file: "<<path;
 #if STARLIGHT_DEBUG
-				throw std::exception(error.str().c_str());
+				THROW(error.str().c_str());
 #endif
 			}
 
