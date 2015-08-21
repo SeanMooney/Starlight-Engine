@@ -19,6 +19,7 @@ limitations under the License.*/
 #include "STARLIGHT_CORE\Shared.h"
 #include "STARLIGHT_CORE\Maths\Vec.h"
 
+
 namespace starlight{
 	namespace core{
 		namespace maths{
@@ -168,14 +169,16 @@ namespace starlight{
 				}
 
 				//stream
+
 				friend std::ostream& operator<< (std::ostream& os,const T& rhs){
-					os<<"matrix:{";
-					for(int i=0; i<T::dimension*T::dimension;i++){
-						if(!i) os<<rhs.data_array[i];
-						else os<<","<<rhs.data_array[i];
-					}
-					os<<"}";
+					STARLIGHT_OUTPUT_ARCHIVE archive(os);
+					archive(rhs);
 					return std::move(os);
+				}
+				friend std::istream& operator>>(std::istream& is,T& rhs){
+					STARLIGHT_INPUT_ARCHIVE archive(is);
+					archive(rhs);
+					return is;
 				}
 				//ctor
 				MatrixBase<T>(){
@@ -214,6 +217,11 @@ namespace starlight{
 				Matrix4(STARLIGHT_PRECISSION diagonal):MatrixBase(diagonal){}
 				Matrix4(std::initializer_list<STARLIGHT_PRECISSION> l) :MatrixBase(l){}
 				
+				template <class Archive>
+				void serialize(Archive & ar){
+					ar(cereal::make_nvp("Matrix4",data));
+				}
+
 				static Matrix4  orthographic(STARLIGHT_PRECISSION left,STARLIGHT_PRECISSION right,
 										STARLIGHT_PRECISSION bottom,STARLIGHT_PRECISSION top,
 										STARLIGHT_PRECISSION near,STARLIGHT_PRECISSION far){

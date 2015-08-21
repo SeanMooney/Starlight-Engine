@@ -114,10 +114,49 @@ namespace starlight{
 				
 				STARLIGHT_TEST_CASE(TEST_MAT4_SERIALIES){
 					Matrix4 test(1.0f);
-					std::string expected="matrix:{1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}";
+					const char *expected= 
+R"({
+    "value0": {
+        "Matrix4": {
+            "value0": {
+                "x": 1,
+                "y": 0,
+                "z": 0,
+                "w": 0
+            },
+            "value1": {
+                "x": 0,
+                "y": 1,
+                "z": 0,
+                "w": 0
+            },
+            "value2": {
+                "x": 0,
+                "y": 0,
+                "z": 1,
+                "w": 0
+            },
+            "value3": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+            }
+        }
+    }
+})";
 					std::stringstream out;
 					out<<test;
 					Assert::That(out.str()).Should().Be(expected,L"diaganonl 1 ");
+				}
+
+				STARLIGHT_TEST_CASE(serialize_matrix4){
+					Matrix4 expected(42.0f);
+					Matrix4 actual;
+					std::stringstream temp;
+					temp<<expected;
+					temp>>actual;
+					Assert::That(actual).Should().Be(expected,L" actual==expected");
 				}
 
 				STARLIGHT_TEST_CASE(TEST_MAT4_VEC3){
@@ -188,6 +227,7 @@ namespace starlight{
 					Assert::That(actual).Should().Be(expected,L"actual == expected");
 					Assert::That(actual*point).Should().Be(translated,L"translation*point == translated");
 				}
+
 				
 
 			}

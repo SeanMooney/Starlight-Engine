@@ -14,6 +14,10 @@ limitations under the License.*/
 #pragma once
 #include <string>
 #include <iostream>
+#include <cereal\archives\portable_binary.hpp>
+#include <cereal\archives\json.hpp>
+#include <cereal\archives\xml.hpp>
+
 #include "GLEW\GL\glew.h"
 typedef GLuint STARLIGHT_UINT;
 typedef GLint STARLIGHT_INT;
@@ -45,15 +49,18 @@ typedef GLchar STARLIGHT_CHAR;
 #define THROW(msg)  std ::cerr<<msg;  exit(-1);
 #endif
 
+#ifndef STARLIGHT_ARCHIVE_BINARY
+#define STARLIGHT_OUTPUT_ARCHIVE cereal::JSONOutputArchive
+#define STARLIGHT_INPUT_ARCHIVE cereal::JSONInputArchive
+#else
+#define STARLIGHT_OUTPUT_ARCHIVE cereal::BinaryOutputArchive
+#define STARLIGHT_INPUT_ARCHIVE cereal::BinaryInputArchive
+#endif
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 namespace starlight{
 	namespace core{
-
-
-		
-		
-
 
 		class STARLIGHTAPI Shared{
 		private:

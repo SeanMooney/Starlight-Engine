@@ -11,6 +11,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
+#include <sstream>
+
 #include "STARLIGHT_TEST\Shared.h"
 #include "STARLIGHT_CORE\Maths\Vec.h"
 
@@ -121,6 +123,15 @@ namespace starlight{
 					T& b=init_vec<T>(3.0f);
 					T& c=init_vec<T>(2.0f);
 					Assert::That(a/b).Should().Be(c,L"6/2=3");
+				}
+
+				STARLIGHT_TEST_CASE_VEC(serialize_vec){
+					T& a=init_vec<T>(1.0f);
+					std::stringstream temp;
+					temp<<a;
+					T b;
+					temp>>b;
+					Assert::That(a).Should().Be(b,L" becasue");
 				}
 			}
 		}

@@ -109,15 +109,18 @@ namespace starlight{
 					return result;
 				}
 
-				friend std::ostream& operator<< (std::ostream& os,const T& rhs){
-					os<<"vec:{";
-					for(int i=0; i<T::dimension;i++){
-						if(!i) os<<rhs.data_array[i];
-						else os<<","<<rhs.data_array[i];
-					}
-					os<<"}";
+				friend std::ostream& operator<<(std::ostream& os,const T& rhs){
+					STARLIGHT_OUTPUT_ARCHIVE archive(os);
+					archive(rhs);
 					return os;
 				}
+
+				friend std::istream& operator>>(std::istream& is,T& rhs){
+					STARLIGHT_INPUT_ARCHIVE archive(is);
+					archive(rhs);
+					return is;
+				}
+
 				VecBase<T>(){
 					T& reference(static_cast<T&>(*this));
 					for(int i=0; i<T::dimension;i++)
@@ -136,6 +139,10 @@ namespace starlight{
 					STARLIGHT_PRECISSION data_array[dimension];
 					struct _Vec1{
 						STARLIGHT_PRECISSION x;
+						template <class Archive>
+						void serialize(Archive & ar){
+							ar(CEREAL_NVP(x));
+						}
 					} data;
 				};
 				Vec1()=default;
@@ -143,6 +150,10 @@ namespace starlight{
 				Vec1(const STARLIGHT_PRECISSION& x)
 					:VecBase<Vec1>(){
 					data.x=x;
+				}
+				template <class Archive>
+				void serialize(Archive & ar){
+					ar(cereal::make_nvp("Vec1",data));
 				}
 
 			};
@@ -154,6 +165,11 @@ namespace starlight{
 					struct _Vec2{
 						STARLIGHT_PRECISSION x;
 						STARLIGHT_PRECISSION y;
+						template <class Archive>
+						void serialize(Archive & ar){
+							ar(CEREAL_NVP(x)
+							   ,CEREAL_NVP(y));
+						}
 					} data;
 				};
 				Vec2()=default;
@@ -162,6 +178,10 @@ namespace starlight{
 					:VecBase<Vec2>(){
 					data.x=x;
 					data.y=y;
+				}
+				template <class Archive>
+				void serialize(Archive & ar){
+					ar(cereal::make_nvp("Vec2",data));
 				}
 			};
 
@@ -173,6 +193,12 @@ namespace starlight{
 						STARLIGHT_PRECISSION x;
 						STARLIGHT_PRECISSION y;
 						STARLIGHT_PRECISSION z;
+						template <class Archive>
+						void serialize(Archive & ar){
+							ar( CEREAL_NVP(x)
+							   ,CEREAL_NVP(y)
+							   ,CEREAL_NVP(z));
+						}
 					} data;
 				};
 				Vec3()=default;
@@ -183,12 +209,23 @@ namespace starlight{
 					data.y=y;
 					data.z=z;
 				}
+				template <class Archive>
+				void serialize(Archive & ar){
+					ar(cereal::make_nvp("Vec3",data));
+				}
 			};
 			struct STARLIGHTAPI _Vec4{
 				STARLIGHT_PRECISSION x;
 				STARLIGHT_PRECISSION y;
 				STARLIGHT_PRECISSION z;
 				STARLIGHT_PRECISSION w;
+				template <class Archive>
+				void serialize(Archive & ar){
+					ar( CEREAL_NVP(x)
+					   ,CEREAL_NVP(y)
+					   ,CEREAL_NVP(z)
+					   ,CEREAL_NVP(w));
+				}
 			};
 
 			struct STARLIGHTAPI Vec4 : public VecBase<Vec4>{
@@ -211,7 +248,10 @@ namespace starlight{
 					:VecBase<Vec4>(){
 					data=vec;
 				}
-			
+				template <class Archive>
+				void serialize(Archive & ar){
+					ar(cereal::make_nvp("Vec4",data));
+				}
 			};
 		}
 	}
