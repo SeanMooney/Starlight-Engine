@@ -47,6 +47,7 @@ typedef GLchar STARLIGHT_CHAR;
 #define THROW(msg) throw std::exception::exception(msg);
 #else
 #define THROW(msg)  std ::cerr<<msg;  exit(-1);
+#define abstract =0
 #endif
 
 #ifndef STARLIGHT_ARCHIVE_BINARY

@@ -190,6 +190,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\Buffer.cpp" />
     <ClCompile Include="src\graphics\Program.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="src\input\Keyboard.cpp" />
@@ -205,6 +206,7 @@
   <ItemGroup>
     <ClInclude Include="include\GLEW.h" />
     <ClInclude Include="include\GLFW.h" />
+    <ClInclude Include="include\graphics\Buffer.h" />
     <ClInclude Include="include\graphics\GLEW.h" />
     <ClInclude Include="include\graphics\GLFW.h" />
     <ClInclude Include="include\graphics\Program.h" />
