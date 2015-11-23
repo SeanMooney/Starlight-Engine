@@ -190,7 +190,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\graphics\Buffer.cpp" />
     <ClCompile Include="src\graphics\Program.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="src\input\Keyboard.cpp" />
@@ -211,6 +210,7 @@
     <ClInclude Include="include\graphics\GLFW.h" />
     <ClInclude Include="include\graphics\Program.h" />
     <ClInclude Include="include\graphics\Shader.h" />
+    <ClInclude Include="include\graphics\VertexArray.h" />
     <ClInclude Include="include\graphics\Window.h" />
     <ClInclude Include="include\InputManager.h" />
     <ClInclude Include="include\input\InputManager.h" />

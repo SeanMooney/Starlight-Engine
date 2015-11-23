@@ -58,23 +58,35 @@ namespace starlight{
 				
 
 				STARLIGHT_UINT getID(){ return shaderID; }
+				std::stringstream getCompilerError(){
+					std::stringstream ss;
+					GLint isCompiled=0;
+					glGetShaderiv(shaderID,GL_COMPILE_STATUS,&isCompiled);
+					if(isCompiled==GL_FALSE){
+						GLint maxLength=0;
+						glGetShaderiv(shaderID,GL_INFO_LOG_LENGTH,&maxLength);
+
+						//The maxLength includes the NULL character
+						std::vector<GLchar> infoLog(maxLength);
+						glGetShaderInfoLog(shaderID,maxLength,&maxLength,&infoLog[0]);
+
+						std::copy(infoLog.begin(),infoLog.end(),std::ostream_iterator<char>(ss));
+						
+					}
+					return ss;
+
+				}
 				void compile(){
 					const STARLIGHT_CHAR*src=shaderSrc.c_str();
 					glShaderSource(shaderID,1,&src,nullptr);
 					glCompileShader(shaderID);
-					STARLIGHT_INT status=0;
-					glGetShaderiv(shaderID,GL_COMPILE_STATUS,&status);
-					if(status==GL_FALSE){
-						STARLIGHT_INT lenght;
-						glGetShaderiv(shaderID,GL_INFO_LOG_LENGTH,&lenght);
-						std::vector<char> error(lenght);
-						glGetShaderInfoLog(shaderID,lenght,&lenght,&error[0]);
+					std::stringstream error=getCompilerError();
+					if(error.tellp()>0){
 						starlight::core::utils::Error message;
 						message<<"shader compilation failed: "<<__FILE__<<" "<<__LINE__<<std::endl;
 						message<<"shader path: "<<shaderPath<<std::endl;
-						message<<"shader error: ";
+						message<<"shader error: " << error.str();
 						// append error
-						std::copy(error.begin(),error.end(),std::ostream_iterator<char>(message));
 					} else{
 						starlight::core::utils::Debug()<<"shader: "<<shaderPath<<" compiled sucessfully";
 					}
@@ -89,6 +101,25 @@ namespace starlight{
 			class STARLIGHTAPI FragmentShader : public Shader<ShaderTypes::fragment>{
 			public:
 				FragmentShader(const std::string& path) :Shader<ShaderTypes::fragment>(path){}
+			};
+			class STARLIGHTAPI ShaderAttribute{
+
+				friend BindGaurd<ShaderAttribute>;
+			private:
+				static std::mutex mutex;  // protects bind and unbind
+			public:
+				STARLIGHT_UINT location,offset,count;
+				GLenum type;
+			private:
+			public:
+				ShaderAttribute(ShaderAttribute&&)=default;
+				ShaderAttribute(STARLIGHT_UINT location,STARLIGHT_UINT offset,STARLIGHT_UINT count,GLenum type):
+					location(location),offset(offset),count(count),type(type){}
+				void bind()const{glEnableVertexAttribArray(location);}
+				void unbind()const{ }
+				BindGaurd<ShaderAttribute>&& getBindGuard() const{
+					return BindGaurd<ShaderAttribute>(this,mutex);
+				}
 			};
 		}
 	}

@@ -14,41 +14,31 @@ limitations under the License.*/
 #pragma once
 #include "STARLIGHT_CORE\Shared.h"
 #include "STARLIGHT_CORE\graphics\GLEW.h"
-
+#include <array>
+#include <mutex>
 namespace starlight{
 	namespace core{
 		namespace graphics{
-
-			enum BufferType{ vertex,index };
+			STARLIGHTAPI typedef std::array<int,4> RectIndicies;
+			STARLIGHTAPI typedef std::array<int,3> TriIndicies;
+			enum  STARLIGHTAPI BufferType{ vertexBufferType,indexBufferType };
 			template<BufferType T, typename U>
 			class Buffer{
-			private:
+			protected:
 				STARLIGHT_UINT bufferID;
 				BufferType type;
-				std::vector<U> data;
+				std::shared_ptr<std::vector<U>> data;
 				GLenum usage;
 			private:
-				template<typename P>
-				class BindGaurd{
-				public:
-					P* parent;
-					BindGaurd(P* parent):parent(parent){parent->bind()}
-					~BindGaurd(){parent->unbind()}
-				}; friend class BindGuard;
-				void init()const abstract;
-				void bind() const abstract ;
-				void unbind()const abstract ;
 			public:
 				STARLIGHT_UINT getID(){ return bufferID; }
-				std::vector<U>* getData(){ return &data; }
-				void flush()const abstract ;
+				std::shared_ptr<std::vector<U>> getData(){ return data; }
+				void flush()const;
 				template<typename P>
-				BindGaurd<P>&& getBindGuard() const abstract;
-				Buffer(std::vector<U>&& dataset,GLenum usage):type(T),data(std::forward(dataset)),usage(usage){
+				BindGaurd<P>&& getBindGuard() const;
+				Buffer(std::vector<U>* dataset,GLenum usage)
+					:type(T),data(std::shared_ptr<std::vector<U>>(dataset)),usage(usage){
 					glGenBuffers(1,&bufferID);
-					bind();
-					init();
-					unbind();
 				}
 				~Buffer(){
 					glDeleteBuffers(1,&bufferID);
@@ -56,45 +46,69 @@ namespace starlight{
 			};
 
 			template <typename U>
-			class STARLIGHTAPI VertexBuffer : public Buffer<BufferType::vertex,std::vector<U> >{
-				void init()  const override{
-					glBufferData(GL_ARRAY_BUFFER,data.size()*sizeof(U),data.data(),usage);
+			class VertexBuffer : public Buffer<BufferType::vertexBufferType,U >{
+			private:
+				static std::mutex mutex;  // protects bind and unbind
+			private:
+				void init()  const{
+					glBufferData(GL_ARRAY_BUFFER,data->size()*sizeof(U),data->data(),usage);
 				}
-				void bind() const override{
+			public:
+				VertexBuffer(std::vector<U>* dataset,GLenum usage=GL_STATIC_DRAW) 
+					: Buffer<BufferType::vertexBufferType,U>(dataset,usage){
+					bind();
+					init();
+					unbind();
+				}
+				void bind() const{
 					glBindBuffer(GL_ARRAY_BUFFER,bufferID);
 				}
-				void unbind() const override{
+				void unbind() const{
 					glBindBuffer(GL_ARRAY_BUFFER,0);
 				}
-			public:
-				VertexBuffer(std::vector<U>&& dataset,GLenum usage=GL_STATIC_DRAW) : Buffer<BufferType::vertex>(std::forward(dataset),usage){}
-				void flush()  const override{
-					glBufferSubData(GL_ARRAY_BUFFER,data.size()*sizeof(U),data.data(),usage);
+				void flush()  const{
+					glBufferSubData(GL_ARRAY_BUFFER,0,data->size()*sizeof(U),data->data());
 				}
-				BindGaurd<VertexBuffer>&& getBindGuard() const override{
-					return BindGaurd(this);
+				BindGaurd<VertexBuffer>&& getBindGuard() const{
+					return BindGaurd<VertexBuffer>(this,mutex);
 				}
+				friend class BindGaurd<VertexBuffer>;
 			};
 			template<typename U>
-			class STARLIGHTAPI IndexBuffer : public Buffer<BufferType::index,std::vector<U> >{
-				void init() const override{
-					glBufferData(GL_ELEMENT_ARRAY_BUFFER,data.size()*sizeof(U),data.data(),usage);
-				}
-				void bind() const override{
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,bufferID);
-				}
-				void unbind() const override{
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+			std::mutex VertexBuffer<U>::mutex; // intialies mutex once and only once.
+
+			template<typename U>
+			class IndexBuffer : public Buffer<BufferType::indexBufferType,U>{
+			private:
+				static std::mutex mutex;  // protects bind and unbind
+			private:
+				void init() const{
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER,data->size()*sizeof(U),data->data(),usage);
 				}
 			public:
-				IndexBuffer(std::vector<U>&& dataset,GLenum usage=GL_STATIC_DRAW) : Buffer<BufferType::index>(std::forward(dataset),usage){}
-				void flush() const override{
-					glBufferSubData(GL_ELEMENT_ARRAY_BUFFER,data.size()*sizeof(U),data.data(),usage);
+				IndexBuffer(std::vector<U>* dataset,GLenum usage=GL_STATIC_DRAW) 
+					: Buffer<BufferType::indexBufferType,U>(dataset,usage){
+					bind();
+					init();
+					unbind();
 				}
-				BindGaurd<IndexBuffer>&& getBindGuard() const override{
-					return BindGaurd(this);
+				void bind() const{
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,bufferID);
 				}
+				void unbind() const{
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+				}
+				void flush() const{
+					glBufferSubData(GL_ELEMENT_ARRAY_BUFFER,0,data->size()*sizeof(U),data->data());
+				}
+				BindGaurd<IndexBuffer>&& getBindGuard() const{
+					
+					return BindGaurd<IndexBuffer>(this,mutex);
+				}
+				friend class BindGaurd<IndexBuffer>;
 			};
+			template<typename U>
+			std::mutex IndexBuffer<U>::mutex; // intialies mutex once and only once.
 		}
 	}
 }

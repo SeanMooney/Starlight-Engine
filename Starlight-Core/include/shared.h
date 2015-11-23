@@ -14,16 +14,17 @@ limitations under the License.*/
 #pragma once
 #include <string>
 #include <iostream>
+#include <mutex>
 #include <cereal\archives\portable_binary.hpp>
 #include <cereal\archives\json.hpp>
 #include <cereal\archives\xml.hpp>
 
 #include "GLEW\GL\glew.h"
-typedef GLuint STARLIGHT_UINT;
-typedef GLint STARLIGHT_INT;
-typedef GLfloat STARLIGHT_FLOAT;
-typedef GLdouble STARLIGHT_DOUBLE;
-typedef GLchar STARLIGHT_CHAR;
+typedef  unsigned int  STARLIGHT_UINT;
+typedef  int		   STARLIGHT_INT;
+typedef  float		   STARLIGHT_FLOAT;
+typedef  double	       STARLIGHT_DOUBLE;
+typedef  char		   STARLIGHT_CHAR;
 
 #if defined(STARLIGHT_CORE_LIBRARY_EXPORT) // inside DLL
 #   define STARLIGHTAPI   __declspec(dllexport)
@@ -62,6 +63,20 @@ typedef GLchar STARLIGHT_CHAR;
 #include <math.h>
 namespace starlight{
 	namespace core{
+		template<typename P>
+		class BindGaurd{
+		private:
+			std::lock_guard<std::mutex> lock;
+			P& parent;
+		public:
+			BindGaurd(BindGaurd&&)=default;
+			BindGaurd(const P* parent,std::mutex& lock) 
+				:parent((P&)(*parent)),lock(lock){
+				this->parent.bind();
+			}
+			~BindGaurd(){ this->parent.unbind(); }
+			//friend P;
+		};
 
 		class STARLIGHTAPI Shared{
 		private:
@@ -69,7 +84,6 @@ namespace starlight{
 			~Shared();
 		public:
 			static const std::string SHARED_MESSAGE;
-
 		};
 	}
 }

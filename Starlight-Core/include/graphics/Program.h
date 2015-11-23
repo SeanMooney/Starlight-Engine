@@ -30,6 +30,8 @@ namespace starlight{
 				Program(const std::string& vShaderPath,const std::string& fShaderPath);
 				~Program();
 				void compile();
+				std::stringstream Program::getLinkerError();
+				std::stringstream Program::getValidationError();
 				void enable();
 				void disable();
 				STARLIGHT_INT getUniformLocation(const STARLIGHT_CHAR* name)const;

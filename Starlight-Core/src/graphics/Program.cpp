@@ -30,29 +30,75 @@ namespace starlight{
 				glDeleteProgram(programID);
 			}
 
+			std::stringstream Program::getLinkerError(){
+				std::stringstream ss;
+				GLint isLinked=0;
+				glGetProgramiv(programID,GL_LINK_STATUS,(int *)&isLinked);
+				if(isLinked==GL_FALSE){
+					GLint maxLength=0;
+					glGetProgramiv(programID,GL_INFO_LOG_LENGTH,&maxLength);
+
+					//The maxLength includes the NULL character
+					std::vector<GLchar> infoLog(maxLength);
+					glGetProgramInfoLog(programID,maxLength,&maxLength,&infoLog[0]);
+					std::copy(infoLog.begin(),infoLog.end(),std::ostream_iterator<char>(ss));
+
+				}
+
+				return ss;
+
+			}
+
+			std::stringstream Program::getValidationError(){
+				std::stringstream ss;
+				GLint valid=0;
+				glGetProgramiv(programID,GL_VALIDATE_STATUS,&valid);
+				if(valid==GL_FALSE){
+					GLint maxLength=0;
+					glGetProgramiv(programID,GL_INFO_LOG_LENGTH,&maxLength);
+
+					//The maxLength includes the NULL character
+					std::vector<GLchar> infoLog(maxLength);
+					glGetProgramInfoLog(programID,maxLength,&maxLength,&infoLog[0]);
+					std::copy(infoLog.begin(),infoLog.end(),std::ostream_iterator<char>(ss));
+
+				}
+
+				return ss;
+
+			}
+
+
 			void Program::compile(){
 				vertexShader.compile();
+				PRINT_GL_ERROR();
 				fragmentShader.compile();
+				PRINT_GL_ERROR();
 				glAttachShader(programID,vertexShader.getID());
+				PRINT_GL_ERROR();
 				glAttachShader(programID,fragmentShader.getID());
+				PRINT_GL_ERROR();
 				glLinkProgram(programID);
+				PRINT_GL_ERROR();
+				std::stringstream linkError=getLinkerError();
+				if(linkError.tellp()>0){
+					starlight::core::utils::Error message;
+					message<<"program linking failed: "<<__FILE__<<" "<<__LINE__<<std::endl;
+					message<<"linker error: " <<linkError.str();
+					// append error
+				} else{
+					starlight::core::utils::Debug()<<"program linking sucessful";
+				}
 				glValidateProgram(programID);
-				STARLIGHT_INT status=0;
-				glGetShaderiv(programID,GL_VALIDATE_STATUS,&status);
-				if(status=GL_FALSE){
-					STARLIGHT_INT lenght;
-					glGetShaderiv(programID,GL_INFO_LOG_LENGTH,&lenght);
-					std::vector<char> error(lenght);
-					glGetShaderInfoLog(programID,lenght,&lenght,&error[0]);
+				PRINT_GL_ERROR();
+				std::stringstream validationError=getValidationError();
+				if(validationError.tellp()>0){
 					starlight::core::utils::Error message;
 					message<<"program validation failed: "<<__FILE__<<" "<<__LINE__<<std::endl;
-					message<<"validation error: ";
-					// append error
-					std::copy(error.begin(),error.end(),std::ostream_iterator<char>(message));
+					message<<"validation error: "<<validationError.str();
 				} else{
 					starlight::core::utils::Debug()<<"program validation sucessful";
 				}
-			
 			}
 
 			void Program::enable(){

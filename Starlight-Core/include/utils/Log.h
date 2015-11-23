@@ -17,10 +17,15 @@ limitations under the License.*/
 #include <sstream>
 #include <iostream>
 #include <iterator>
+#include <STARLIGHT_CORE\graphics\GLEW.h>
 namespace starlight{
 	namespace core{
 		namespace utils{
 			
+
+
+
+
 			class STARLIGHTAPI Debug : public std::stringstream{
 			private:
 				std::ostream& out;
@@ -33,7 +38,7 @@ namespace starlight{
 				void flush(){
 #if STARLIGHT_DEBUG
 					if(!isEmpty())
-						out<<"DEBUG:{"<<this->str()<<"}"<<std::endl;
+						out<<"DEBUG: "<<this->str()<<std::endl;
 #endif
 				}
 			};
@@ -48,10 +53,18 @@ namespace starlight{
 				bool isEmpty(){ return this->rdbuf()->in_avail()==0; }
 
 				void flush(){
-					out<<"ERROR:{"<<this->str()<<"}"<<std::endl;
+					out<<"ERROR: "<<this->str()<<std::endl;
 				}
 			};
-
+			static void printGLError(char* file,char* func,int line){
+				GLenum error=glGetError();
+				if(error!=GL_NO_ERROR)
+					Debug()<<"GL_ERROR: "<<error
+					<<"\tFile: "<<file
+					<<"\tFunction: "<<func
+					<<"\tLine: "<<line;
+			}
+#define PRINT_GL_ERROR() starlight::core::utils::printGLError(__FILE__,__FUNCTION__,__LINE__)
 
 		}
 	}
