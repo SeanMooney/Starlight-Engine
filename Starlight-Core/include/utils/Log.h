@@ -27,20 +27,23 @@ namespace starlight{
 
 
 			class STARLIGHTAPI Debug : public std::stringstream{
+#if STARLIGHT_DEBUG
 			private:
 				std::ostream& out;
 			public:
 				Debug(std::ostream& stream=std::cout) :out(stream){}
 				~Debug(){ flush(); }
 
-				bool isEmpty(){ return this->rdbuf()->in_avail()==0; }
-
 				void flush(){
-#if STARLIGHT_DEBUG
 					if(!isEmpty())
 						out<<"DEBUG: "<<this->str()<<std::endl;
-#endif
 				}
+#else
+			public:
+				Debug(std::ostream& stream=std::cout){ SUPPRESS_UNUSED(stream); }
+				void flush(){}
+#endif
+				bool isEmpty(){ return this->rdbuf()->in_avail()==0; }
 			};
 
 			class STARLIGHTAPI Error : public std::stringstream{
@@ -66,7 +69,7 @@ namespace starlight{
 					<<"\tFunction: "<<func
 					<<"\tLine: "<<line;
 			}
-#define PRINT_GL_ERROR() starlight::core::utils::printGLError(__FILE__,__FUNCTION__,__LINE__)
+#define PRINT_GL_ERROR() starlight::core::utils::printGLError(__FILE__,/*__FUNCTION__*/ "func",__LINE__)
 
 		}
 	}

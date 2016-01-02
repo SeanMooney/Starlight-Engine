@@ -46,8 +46,8 @@ namespace starlight{
 				using starlight::core::graphics::Window;
 				Window* win=static_cast<Window*>(glfwGetWindowUserPointer(window));
 				Mouse* m=Mouse::mouseMap[win];
-				m->pos.data.x=x;
-				m->pos.data.y=y;
+				m->pos.data.x=static_cast<STARLIGHT_PRECISSION>(x);
+				m->pos.data.y=static_cast<STARLIGHT_PRECISSION>(y);
 				m->dirty=true;
 			}
 

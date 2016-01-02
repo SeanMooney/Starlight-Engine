@@ -214,6 +214,7 @@ R"({
 				}
 				
 				STARLIGHT_TEST_CASE(TEST_MAT4_PERSPECTIVE){
+				#pragma warning( suppress : 4305 ) // truncation from double to float
 					Matrix4 actual=Matrix4::perspective(90,1920/1080.0,10,1000);
 					Matrix4 expected={ 0.5625f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,-1.0202f,-1.0f,0.0f,0.0f,-20.202f,1.0f };
 					Assert::That(actual).Should().Be(expected,L"actual == expected");

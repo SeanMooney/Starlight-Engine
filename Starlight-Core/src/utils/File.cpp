@@ -26,10 +26,12 @@ namespace starlight{
 					return ss.str();
 				}
 
+#if STARLIGHT_DEBUG
 				Error error;
 				error<<"failed to read file: "<<path;
-#if STARLIGHT_DEBUG
 				THROW(error.str().c_str());
+#else 
+				return NULL;
 #endif
 			}
 
