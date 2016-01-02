@@ -87,46 +87,46 @@ namespace starlight{
 				}
 
 				STARLIGHT_TEST_CASE_VEC(not_equal_vec){
-					T& a=init_vec<T>(1.0f);
-					T& b=init_vec<T>(2.0f);
+					T&& a=init_vec<T>(1.0f);
+					T&& b=init_vec<T>(2.0f);
 					Assert::That(a).Should().NotBe(b,L"1!=2");
 				}
 				STARLIGHT_TEST_CASE_VEC(less_vec){
-					T& a=init_vec<T>(1.0f);
-					T& b=init_vec<T>(2.0f);
+					T&& a=init_vec<T>(1.0f);
+					T&& b=init_vec<T>(2.0f);
 					Assert::That(a<b).Should().Be(true,L"1!=2");
 				}
 
 				STARLIGHT_TEST_CASE_VEC(add_vec){
-					T& a=init_vec<T>(1.0f);
-					T& b=init_vec<T>(2.0f);
-					T& c=init_vec<T>(3.0f);
+					T&& a=init_vec<T>(1.0f);
+					T&& b=init_vec<T>(2.0f);
+					T&& c=init_vec<T>(3.0f);
 					Assert::That(a+b).Should().Be(c,L"1+2=3");
 				}
 
 				STARLIGHT_TEST_CASE_VEC(subtract_vec){
-					T& a=init_vec<T>(1.0f);
-					T& b=init_vec<T>(2.0f);
-					T& c=init_vec<T>(3.0f);
+					T&& a=init_vec<T>(1.0f);
+					T&& b=init_vec<T>(2.0f);
+					T&& c=init_vec<T>(3.0f);
 					Assert::That(c-b).Should().Be(a,L"3-2=1");
 				}
 
 				STARLIGHT_TEST_CASE_VEC(multiply_vec){
-					T& a=init_vec<T>(2.0f);
-					T& b=init_vec<T>(3.0f);
-					T& c=init_vec<T>(6.0f);
+					T&& a=init_vec<T>(2.0f);
+					T&& b=init_vec<T>(3.0f);
+					T&& c=init_vec<T>(6.0f);
 					Assert::That(a*b).Should().Be(c,L"1*2=2");
 				}
 
 				STARLIGHT_TEST_CASE_VEC(devide_vec){
-					T& a=init_vec<T>(6.0f);
-					T& b=init_vec<T>(3.0f);
-					T& c=init_vec<T>(2.0f);
+					T&& a=init_vec<T>(6.0f);
+					T&& b=init_vec<T>(3.0f);
+					T&& c=init_vec<T>(2.0f);
 					Assert::That(a/b).Should().Be(c,L"6/2=3");
 				}
 
 				STARLIGHT_TEST_CASE_VEC(serialize_vec){
-					T& a=init_vec<T>(1.0f);
+					T&& a=init_vec<T>(1.0f);
 					std::stringstream temp;
 					temp<<a;
 					T b;

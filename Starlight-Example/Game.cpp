@@ -75,7 +75,8 @@ namespace starlight{
 				inputManager->processEvents();
 			}
 			ibo->unbind();
-
+			vbo->unbind();
+			vao.unbind();
 			window.reset();
 		}
 		void Game::init(){
@@ -95,7 +96,7 @@ namespace starlight{
 			};
 			auto printRepeat=[window=window->get()](){
 				static int count=0;
-				Debug()<<"this is a repeat test: "<<std::endl;
+				Debug()<<"this is a repeat test: "<<count++<<std::endl;
 			};
 			trigger=std::make_pair(Keycodes::KEY_SPACE,false);
 			inputManager->registerKeyboardEvent(trigger,print);

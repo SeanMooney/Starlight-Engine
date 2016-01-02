@@ -24,18 +24,18 @@ namespace starlight{
 				VertexShader vertexShader;
 				FragmentShader fragmentShader;
 				STARLIGHT_UINT programID;
-				template <typename T>
-				void setUniform(const STARLIGHT_CHAR* name,const T& value)const;
 			public:
 				Program(const std::string& vShaderPath,const std::string& fShaderPath);
 				~Program();
 				void compile();
-				std::stringstream Program::getLinkerError();
-				std::stringstream Program::getValidationError();
+				std::stringstream getLinkerError();
+				std::stringstream getValidationError();
 				void enable();
 				void disable();
 				STARLIGHT_INT getUniformLocation(const STARLIGHT_CHAR* name)const;
 				
+				template <typename T>
+				void setUniform(const STARLIGHT_CHAR* name,const T& value)const;
 
 				template <>
 				void setUniform(const STARLIGHT_CHAR* name,const STARLIGHT_FLOAT& value)const{

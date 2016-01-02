@@ -14,9 +14,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glfw", "dependcies\glfw\src\glfw.vcxproj", "{5B310DA2-3D6F-4D98-91FA-1F8DEA2CB4CF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Starlight-Example", "Starlight-Example\Starlight-Example.vcxproj", "{CB4EB34F-0E8C-4826-8CEE-9F197EFE9258}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D4A589C7-DE70-440A-AAFF-FDFE79C125BF} = {D4A589C7-DE70-440A-AAFF-FDFE79C125BF}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CCA56BDB-4FF0-4EE8-8752-CD5D1C70A047}"
 	ProjectSection(SolutionItems) = preProject

@@ -24,7 +24,6 @@ namespace starlight{
 			using namespace starlight::core::maths;
 			template<typename T=Vec3, typename U=RectIndicies>
 			class  VertexArray{
-				friend class BindGuard;
 			private:
 				std::shared_ptr<VertexBuffer<T>> vbo;
 				std::shared_ptr<IndexBuffer<U>> ibo;
@@ -42,13 +41,10 @@ namespace starlight{
 				void bind(){ glBindVertexArray(vaoID); }
 				void unbind(){ glBindVertexArray(0); }
 				void addVertexAtribPtr(ShaderAttribute&& attrib){
-					auto& bg=attrib.getBindGuard();
+					attrib.bind();
 					glVertexAttribPointer(attrib.location,attrib.count,attrib.type,GL_FALSE,sizeof(T),reinterpret_cast<void*>(attrib.offset));
+					attrib.unbind();
 				}
-				BindGaurd<VertexArray>&& getBindGuard() const{
-					return BindGaurd<VertexArray>(this, mutex);
-				}
-
 				std::shared_ptr<VertexBuffer<T>> getVBO(){ return vbo; };
 				std::shared_ptr<IndexBuffer<U>> getIBO(){ return ibo; };
 

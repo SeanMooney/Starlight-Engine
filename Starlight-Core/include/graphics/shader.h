@@ -21,7 +21,7 @@ namespace starlight{
 	namespace core{
 		namespace graphics{
 			using namespace starlight::core::maths;
-			enum STARLIGHTAPI ShaderTypes{
+			enum ShaderTypes{
 				vertex,fragment
 			};
 
@@ -53,7 +53,7 @@ namespace starlight{
 
 				
 			public:
-				Shader(const std::string& path) :shaderPath(path),type(T),shaderSrc(new char[1024]){ load(); }
+				Shader(const std::string& path) :shaderPath(path),shaderSrc(new char[1024]),type(T){ load(); }
 				~Shader(){ unload(); }
 				
 
@@ -103,8 +103,6 @@ namespace starlight{
 				FragmentShader(const std::string& path) :Shader<ShaderTypes::fragment>(path){}
 			};
 			class STARLIGHTAPI ShaderAttribute{
-
-				friend BindGaurd<ShaderAttribute>;
 			private:
 				static std::mutex mutex;  // protects bind and unbind
 			public:
@@ -117,9 +115,6 @@ namespace starlight{
 					location(location),offset(offset),count(count),type(type){}
 				void bind()const{glEnableVertexAttribArray(location);}
 				void unbind()const{ }
-				BindGaurd<ShaderAttribute>&& getBindGuard() const{
-					return BindGaurd<ShaderAttribute>(this,mutex);
-				}
 			};
 		}
 	}

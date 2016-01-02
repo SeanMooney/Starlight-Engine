@@ -56,7 +56,9 @@ namespace starlight{
 					out<<"ERROR: "<<this->str()<<std::endl;
 				}
 			};
-			static void printGLError(char* file,char* func,int line){
+			
+			static inline void printGLError(const char* file,const char* func,int line){
+				SUPPRESS_UNUSED(printGLError);
 				GLenum error=glGetError();
 				if(error!=GL_NO_ERROR)
 					Debug()<<"GL_ERROR: "<<error

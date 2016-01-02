@@ -44,12 +44,11 @@ typedef  char		   STARLIGHT_CHAR;
 #   define STARLIGHT_DEBUG   0
 #endif  // XYZLIBRARY_EXPORT
 
-#ifndef CLANG
+// standard exception message creation.
 #define THROW(msg) throw std::exception::exception(msg);
-#else
-#define THROW(msg)  std ::cerr<<msg;  exit(-1);
-#define abstract =0
-#endif
+
+// suppress unused function/param
+#define SUPPRESS_UNUSED(a) (void)a
 
 #ifndef STARLIGHT_ARCHIVE_BINARY
 #define STARLIGHT_OUTPUT_ARCHIVE cereal::JSONOutputArchive
@@ -63,21 +62,6 @@ typedef  char		   STARLIGHT_CHAR;
 #include <math.h>
 namespace starlight{
 	namespace core{
-		template<typename P>
-		class BindGaurd{
-		private:
-			std::lock_guard<std::mutex> lock;
-			P& parent;
-		public:
-			BindGaurd(BindGaurd&&)=default;
-			BindGaurd(const P* parent,std::mutex& lock) 
-				:parent((P&)(*parent)),lock(lock){
-				this->parent.bind();
-			}
-			~BindGaurd(){ this->parent.unbind(); }
-			//friend P;
-		};
-
 		class STARLIGHTAPI Shared{
 		private:
 			Shared();
