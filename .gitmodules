@@ -1,23 +1,35 @@
 [submodule "dependcies/glew"]
    path = dependcies/glew
    ignore = dirty
+   url = https://github.com/coapp-packages/glew.git
+   branch = 227388a816d4595157ed084f844eff223babca29
 
 [submodule "dependcies/glfw"]
 	path = dependcies/glfw
 	ignore = dirty
+	url = https://github.com/glfw/glfw.git
+	branch = 226f85efcbb850f1cf74de1ef1edbba44a19831c
 
 [submodule "dependcies/cereal"]
    path = dependcies/cereal
    ignore = dirty
+   url = https://github.com/USCiLab/cereal.git
+   branch = 2f9471bc401590cf58b38bbbc33d412dade6d589
 
 [submodule "dependcies/operators"]
    path = dependcies/operators
    ignore = dirty
+   url = https://github.com/d-frey/operators.git
+   branch = 748f7bc68a63e09dd991fc18fcc23452679eea88
 
 [submodule "dependcies/Chamois"]
    path = dependcies/Chamois
    ignore = dirty
+   url = https://github.com/evolutional/Chamois.git
+   branch = 14cef290d05b9364438ecf20170ba17c70caebff
 
 [submodule "dependcies/boost"]
    path = dependcies/boost
    ignore = dirty
+   url = https://github.com/boostorg/boost.git
+   branch = 856da6fd7276d6274abd37e1682440425a6445c5
