@@ -119,7 +119,7 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <AdditionalOptions>-Wno-microsoft-template %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-Wno-microsoft %(AdditionalOptions)</AdditionalOptions>
       <MinimalRebuild />
       <BufferSecurityCheck />
       <DebugInformationFormat />

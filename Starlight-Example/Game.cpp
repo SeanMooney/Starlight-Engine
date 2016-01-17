@@ -15,6 +15,7 @@ limitations under the License.*/
 #include "STARLIGHT_CORE\utils\Log.h"
 #include <STARLIGHT_CORE\graphics\VertexArray.h>
 #include <STARLIGHT_CORE\graphics\Buffer.h>
+#include <STARLIGHT_CORE\graphics\ShaderAttribute.h>
 #include <iostream>
 #include <chrono>
 
@@ -29,6 +30,40 @@ namespace starlight{
 		}
 
 		Game::~Game(){}
+
+		void Game::init(){
+
+			using starlight::core::utils::Debug;
+			window=std::make_unique<Window>();
+			inputManager=std::make_unique<InputManager>();
+			inputManager->registerWindowCallback(window.get());
+			auto terminate=[window=window->get()](){
+				glfwSetWindowShouldClose(window,GL_TRUE);
+			};
+			auto trigger=std::make_pair(Keycodes::KEY_ESCAPE,false);
+			inputManager->registerKeyboardEvent(trigger,terminate);
+			auto print=[window=window->get()](){
+				static int count=0;
+				Debug()<<"this is a test: "<<count++<<std::endl;
+			};
+			auto printRepeat=[window=window->get()](){
+				static int count=0;
+				Debug()<<"this is a repeat test: "<<count++<<std::endl;
+			};
+			trigger=std::make_pair(Keycodes::KEY_SPACE,false);
+			inputManager->registerKeyboardEvent(trigger,print);
+			trigger=std::make_pair(Keycodes::KEY_SPACE,true);
+			inputManager->registerKeyboardEvent(trigger,printRepeat);
+
+			auto printPos=[im=inputManager.get()](){
+				auto pos=im->getMouseLocation();
+				Debug()<<pos;
+				Debug()<<"POS X: "<<pos.data.x<<" POS Y: "<<pos.data.y;
+			};
+
+			inputManager->registerMouseEvent(MouseButtons::MOUSE_BUTTON_RIGHT,printPos);
+		}
+
 		void Game::run(){
 
 			PRINT_GL_ERROR();
@@ -78,38 +113,6 @@ namespace starlight{
 			vbo->unbind();
 			vao.unbind();
 			window.reset();
-		}
-		void Game::init(){
-
-			using starlight::core::utils::Debug;
-			window=std::make_unique<Window>();
-			inputManager=std::make_unique<InputManager>();
-			inputManager->registerWindowCallback(window.get());
-			auto terminate=[window=window->get()](){
-				glfwSetWindowShouldClose(window,GL_TRUE);
-			};
-			auto trigger=std::make_pair(Keycodes::KEY_ESCAPE,false);
-			inputManager->registerKeyboardEvent(trigger,terminate);
-			auto print=[window=window->get()](){
-				static int count=0;
-				Debug()<<"this is a test: "<<count++<<std::endl;
-			};
-			auto printRepeat=[window=window->get()](){
-				static int count=0;
-				Debug()<<"this is a repeat test: "<<count++<<std::endl;
-			};
-			trigger=std::make_pair(Keycodes::KEY_SPACE,false);
-			inputManager->registerKeyboardEvent(trigger,print);
-			trigger=std::make_pair(Keycodes::KEY_SPACE,true);
-			inputManager->registerKeyboardEvent(trigger,printRepeat);
-
-			auto printPos=[im=inputManager.get()](){
-				auto pos=im->getMouseLocation();
-				Debug()<<pos;
-				Debug()<<"POS X: "<<pos.data.x<<" POS Y: "<<pos.data.y;
-			};
-
-			inputManager->registerMouseEvent(MouseButtons::MOUSE_BUTTON_RIGHT,printPos);
 		}
 
 	}

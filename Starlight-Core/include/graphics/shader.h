@@ -102,20 +102,6 @@ namespace starlight{
 			public:
 				FragmentShader(const std::string& path) :Shader<ShaderTypes::fragment>(path){}
 			};
-			class STARLIGHTAPI ShaderAttribute{
-			private:
-				static std::mutex mutex;  // protects bind and unbind
-			public:
-				STARLIGHT_UINT location,offset,count;
-				GLenum type;
-			private:
-			public:
-				ShaderAttribute(ShaderAttribute&&)=default;
-				ShaderAttribute(STARLIGHT_UINT location,STARLIGHT_UINT offset,STARLIGHT_UINT count,GLenum type):
-					location(location),offset(offset),count(count),type(type){}
-				void bind()const{glEnableVertexAttribArray(location);}
-				void unbind()const{ }
-			};
 		}
 	}
 }

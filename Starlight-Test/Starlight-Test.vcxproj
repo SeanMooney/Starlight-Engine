@@ -128,6 +128,7 @@
     <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\build\$(ProjectName)\$(Configuration)\</IntDir>
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
+    <TargetName>Starlight-Test</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='clang|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -137,6 +138,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <TargetName>starlight-test</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='clang|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -185,7 +187,7 @@
       </Message>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>“$(TargetPath)”</Command>
+      <Command>$(SolutionDir)\out\$(Configuration)\Starlight-Test.exe</Command>
     </CustomBuildStep>
     <CustomBuildStep>
       <Message>Running unit tests…</Message>

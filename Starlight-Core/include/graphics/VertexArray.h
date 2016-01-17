@@ -17,6 +17,7 @@ limitations under the License.*/
 #include <STARLIGHT_CORE\graphics\GLEW.h>
 #include <STARLIGHT_CORE\Maths\vec.h>
 #include <STARLIGHT_CORE\graphics\Shader.h>
+#include <STARLIGHT_CORE\graphics\ShaderAttribute.h>
 
 namespace starlight{
 	namespace core{

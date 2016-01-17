@@ -205,7 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\Program.cpp" />
-    <ClCompile Include="src\graphics\Shader.cpp" />
+    <ClCompile Include="src\graphics\ShaderAttribute.cpp" />
     <ClCompile Include="src\input\Keyboard.cpp" />
     <ClCompile Include="src\graphics\GLEW.cpp" />
     <ClCompile Include="src\graphics\GLFW.cpp" />
@@ -223,12 +223,15 @@
     <ClInclude Include="include\graphics\GLEW.h" />
     <ClInclude Include="include\graphics\GLFW.h" />
     <ClInclude Include="include\graphics\Program.h" />
+    <ClInclude Include="include\graphics\Renderable2D.h" />
     <ClInclude Include="include\graphics\Shader.h" />
+    <ClInclude Include="include\graphics\ShaderAttribute.h" />
     <ClInclude Include="include\graphics\VertexArray.h" />
     <ClInclude Include="include\graphics\Window.h" />
     <ClInclude Include="include\InputManager.h" />
     <ClInclude Include="include\input\InputManager.h" />
     <ClInclude Include="include\input\Mouse.h" />
+    <ClInclude Include="include\Maths\Rect.h" />
     <ClInclude Include="include\Maths\Matrix.h" />
     <ClInclude Include="include\Maths\Vec.h" />
     <ClInclude Include="include\Shared.h" />

@@ -1,4 +1,4 @@
-/*Copyright 2015 Sean Mooney
+/*Copyright 2016 Sean Mooney
 
 Licensed under the Apache License,Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -11,23 +11,24 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
-#include <iostream>
-#include "include\Game.h"
-#include "STARLIGHT_CORE\Maths\vec.h"
-#include "STARLIGHT_CORE\Maths\Matrix.h"
+#pragma once
 
+#include <array>
 
-using namespace starlight::example;
-using namespace starlight::core::maths;
-using namespace std;
+#include "STARLIGHT_CORE\Shared.h"
+#include <STARLIGHT_CORE\Maths\vec.h>
 
-int main(int argc,char* args[]){
-	cout<<Vec1()<<endl;
-	cout<<Vec2()<<endl;
-	cout<<Vec3()<<endl;
-	cout<<Vec4()<<endl;
-	cout<<Matrix4()<<endl;
-	Game game(args[0]);
-	game.run();
-	return 0;
+namespace starlight{
+	namespace core{
+		namespace maths{
+			class STARLIGHTAPI Rect{
+			private:
+				std::array<Vec3,4> bounds;
+			public:
+			private:
+			public:
+
+			};
+		}
+	}
 }

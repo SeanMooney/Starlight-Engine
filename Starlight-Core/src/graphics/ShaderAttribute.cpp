@@ -11,13 +11,17 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
-#include "STARLIGHT_CORE/graphics/Shader.h"
+#include "STARLIGHT_CORE/graphics/ShaderAttribute.h"
+
 
 namespace starlight{
 	namespace core{
 		namespace graphics{
-
-			std::mutex ShaderAttribute::mutex; // intialies mutex once and only once.
+			inline ShaderAttribute::ShaderAttribute(STARLIGHT_UINT location,STARLIGHT_UINT offset,STARLIGHT_UINT count,GLenum type) :
+				location(location),offset(offset),count(count),type(type){}
+			inline void ShaderAttribute::bind() const{ glEnableVertexAttribArray(location); }
+			inline void ShaderAttribute::unbind() const{}
+			// intialies mutex once and only once.
 		}
 	}
 }

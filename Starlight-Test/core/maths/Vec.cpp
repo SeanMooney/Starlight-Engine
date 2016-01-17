@@ -25,9 +25,9 @@ namespace starlight{
 				template <typename T>
 				T init_vec(STARLIGHT_PRECISSION val){
 					T ret;
-					for(int i=0; i<T::dimension;i++)
-						ret.data_array[i]=val;
-					return std::move(ret);
+					for(STARLIGHT_PRECISSION& f :ret.data_array)
+						f=val;
+					return ret;
 				};
 
 #define STARLIGHT_TEST_CASE_VEC(testCaseName) \
@@ -132,6 +132,61 @@ namespace starlight{
 					T b;
 					temp>>b;
 					Assert::That(a).Should().Be(b,L" becasue");
+				}
+
+				STARLIGHT_TEST_CASE(Vec1_SERIALIES){
+					Vec1 test;
+					const char *expected=
+						R"({
+    "Vec1": {
+        "x": 0
+    }
+})";
+					std::stringstream out;
+					out<<test;
+					Assert::That(out.str()).Should().Be(expected,L"all 0 ");
+				}
+				STARLIGHT_TEST_CASE(Vec2_SERIALIES){
+					Vec2 test;
+					const char *expected=
+						R"({
+    "Vec2": {
+        "x": 0,
+        "y": 0
+    }
+})";
+					std::stringstream out;
+					out<<test;
+					Assert::That(out.str()).Should().Be(expected,L"all 0 ");
+				}
+				STARLIGHT_TEST_CASE(Vec3_SERIALIES){
+					Vec3 test;
+					const char *expected=
+						R"({
+    "Vec3": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    }
+})";
+					std::stringstream out;
+					out<<test;
+					Assert::That(out.str()).Should().Be(expected,L"all 0 ");
+				}
+				STARLIGHT_TEST_CASE(Vec4_SERIALIES){
+					Vec4 test;
+					const char *expected=
+						R"({
+    "Vec4": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+    }
+})";
+					std::stringstream out;
+					out<<test;
+					Assert::That(out.str()).Should().Be(expected,L"all 0 ");
 				}
 			}
 		}

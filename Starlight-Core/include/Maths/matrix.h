@@ -172,12 +172,12 @@ namespace starlight{
 
 				friend std::ostream& operator<< (std::ostream& os,const T& rhs){
 					STARLIGHT_OUTPUT_ARCHIVE archive(os);
-					archive(rhs);
+					archive(cereal::make_nvp("Matrix",rhs));
 					return os;
 				}
 				friend std::istream& operator>>(std::istream& is,T& rhs){
 					STARLIGHT_INPUT_ARCHIVE archive(is);
-					archive(rhs);
+					archive(cereal::make_nvp("Matrix",rhs));
 					return is;
 				}
 				//ctor
@@ -210,8 +210,8 @@ namespace starlight{
 			struct Matrix4 : public MatrixBase<Matrix4>{
 				static const short dimension=4;
 				union{
-					STARLIGHT_PRECISSION data_array[dimension*dimension];
-					_Vec4 data[dimension];
+					STARLIGHT_PRECISSION data_array[16];
+					std::array<_Vec4,4> data;
 				};
 				Matrix4()=default;
 				Matrix4(STARLIGHT_PRECISSION diagonal):MatrixBase(diagonal){}
@@ -219,7 +219,10 @@ namespace starlight{
 				
 				template <class Archive>
 				void serialize(Archive & ar){
-					ar(cereal::make_nvp("Matrix4",data));
+					ar(cereal::make_nvp("Vec4", data[0]),
+					   cereal::make_nvp("Vec4",data[1]),
+					   cereal::make_nvp("Vec4",data[2]),
+					   cereal::make_nvp("Vec4",data[3]));
 				}
 
 				static Matrix4 orthographic(STARLIGHT_PRECISSION left,STARLIGHT_PRECISSION right,

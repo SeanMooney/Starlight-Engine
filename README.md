@@ -13,8 +13,8 @@ Sean Mooney
 * implement environment perp script.
 * add acknowledgements file/section. 
 * trim boost dependecy to only boost.test
-* add unit tests for core lib.
-* intergrate https://github.com/USCiLab/cereal for object/config de/serialisation. (started)
+* add unit tests for core lib. ( started )
+* intergrate https://github.com/USCiLab/cereal for object/config de/serialisation. ( poc done )
 * implement basic 2D imediate mode renderer.
 * implement renderables.
 * implement basic textures.

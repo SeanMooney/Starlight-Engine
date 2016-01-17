@@ -14,25 +14,22 @@ limitations under the License.*/
 #pragma once
 #include "STARLIGHT_CORE\Shared.h"
 #include "STARLIGHT_CORE\graphics\GLEW.h"
-#include "STARLIGHT_CORE\graphics\GLFW.h"
-#include "STARLIGHT_CORE\graphics\Program.h"
-#include "STARLIGHT_CORE\graphics\Window.h"
-#include "STARLIGHT_CORE\input\InputManager.h"
 namespace starlight{
-	namespace example{
-		using namespace starlight::core::graphics;
-		using namespace starlight::core::input;
-		class Game{
-		private:
-			GLFW glfw;
-			std::unique_ptr<Window>window;
-			std::unique_ptr<InputManager>inputManager;
-		public:
-			static std::string exeLocation;
-			Game(const std::string&);
-			~Game();
-			void run();
-			void init();
-		};
+	namespace core{
+		namespace graphics{
+			class STARLIGHTAPI ShaderAttribute{
+			private:
+				static std::mutex mutex;  // protects bind and unbind
+			public:
+				STARLIGHT_UINT location,offset,count;
+				GLenum type;
+			private:
+			public:
+				ShaderAttribute(ShaderAttribute&&)=default;
+				ShaderAttribute(STARLIGHT_UINT location,STARLIGHT_UINT offset,STARLIGHT_UINT count,GLenum type);
+				void bind()const;
+				void unbind()const;
+			};
+		}
 	}
 }
