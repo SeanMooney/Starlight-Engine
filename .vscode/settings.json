@@ -1,0 +1,8 @@
+{
+    "cmake.preferredGenerators": [
+        "Ninja"
+    ],
+    "cmake.configureSettings": {
+        "CMAKE_POSITION_INDEPENDENT_CODE": "True"
+    }
+}

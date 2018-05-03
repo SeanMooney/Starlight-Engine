@@ -1,0 +1,31 @@
+---
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
+BasedOnStyle: LLVM
+IndentWidth: 4
+AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: true
+BreakBeforeBinaryOperators: true
+BreakBeforeBraces: Attach
+BreakBeforeTernaryOperators: true
+Cpp11BracedListStyle: true
+IndentCaseLabels: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
+TabWidth: 4
+UseTab: Never
+BinPackArguments: true
+BinPackParameters: true
+---
+Language: Cpp
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
+PointerAlignment: Left
+ColumnLimit: 120
+---
+Language: Proto
+# Don't format .proto files.
+DisableFormat: true
