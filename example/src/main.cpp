@@ -1,7 +1,11 @@
-#include "core/core.hpp"
-#include <iostream>
+#include <core/core.hpp>
+#include <example/game.hpp>
 
-int main(int argc, char* argv[]) {
-    std::cout << starlight::core::answer << std::endl;
-    std::cin.get();
+using Game = starlight::example::Game;
+
+int main(int argc, char* args[]) {
+    Game game(args[0]);
+    game.run();
+    /* sucessful exit */
+    return 0;
 }

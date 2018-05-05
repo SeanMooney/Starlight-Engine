@@ -4,3 +4,6 @@
 [submodule "external/replxx"]
 	path = external/replxx
 	url = https://github.com/AmokHuginnsson/replxx
+[submodule "external/fakeit"]
+	path = external/fakeit
+	url = https://github.com/eranpeer/FakeIt

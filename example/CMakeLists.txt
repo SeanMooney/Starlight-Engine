@@ -1,9 +1,7 @@
 project (starlight-example CXX)
-# Add executable called "helloDemo" that is built from the source files
-# "demo.cxx" and "demo_b.cxx". The extensions are automatically found.
-add_executable (starlight-example src/main.cpp)
+set (EXAMPLE_INCLUDE include/example/game.hpp)
+set (EXAMPLE_SRC src/main.cpp src/game.cpp)
+add_executable (starlight-example ${EXAMPLE_INCLUDE} ${EXAMPLE_SRC})
 set_target_properties(starlight-example PROPERTIES LINKER_LANGUAGE CXX)
-# Link the executable to the Hello library. Since the Hello library has
-# public include directories we will use those link directories when building
-# helloDemo
 target_link_libraries (starlight-example LINK_PUBLIC starlight-core)
+target_include_directories (starlight-example PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)

@@ -10,6 +10,6 @@ if [ "${first_run}" != "False" ]; then
     ../external/vcpkg/bootstrap.sh
 fi
 
-sudo apt install -y  xorg-dev libgl-dev
+sudo apt install -y  xorg-dev libgl-dev libglu-dev
 #${toolDir}/../external/vcpkg/vcpkg install libepoxy glfw3 cereal catch2 ms-gsl blaze
 ${toolDir}/../external/vcpkg/vcpkg install glew glfw3 cereal catch2 ms-gsl spdlog abseil bullet3 eigen3
