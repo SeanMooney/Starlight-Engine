@@ -14,7 +14,7 @@ GLFW::GLFW() {
     ret = glfwInit();
     if (!ret) {
         destroy();
-        THROW(" glfwInit failed");
+        THROW("glfwInit failed");
     }
     glfwSetErrorCallback(error_callback);
 }

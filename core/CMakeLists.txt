@@ -3,8 +3,14 @@ project (starlight-core CXX)
 # Create a library called "core" which includes the header file "core.hpp".
 # The extension is already found. Any number of sources could be listed here.
 set (CORE_INCLUDE_files include/core/core.hpp  include/core/gfx/gfx.hpp
-     include/core/gfx/gl.hpp include/core/gfx/window.hpp include/core/gfx/glfw.hpp)
-set (CORE_SRC src/gfx/window.cpp src/gfx/glfw.cpp) 
+     include/core/gfx/gl.hpp include/core/gfx/window.hpp include/core/gfx/glfw.hpp
+     include/core/input/keyboard.hpp include/core/input/mouse.hpp
+     include/core/input/manager.hpp)
+
+     set (CORE_SRC src/gfx/window.cpp src/gfx/glfw.cpp 
+          src/input/keyboard.cpp src/input/mouse.cpp src/input/manager.cpp) 
+
+
 add_library (starlight-core ${CORE_INCLUDE} ${CORE_SRC})
 set_target_properties(starlight-core PROPERTIES LINKER_LANGUAGE CXX)
 # Make sure the compiler can find include files for our core library

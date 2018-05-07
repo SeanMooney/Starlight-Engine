@@ -6,8 +6,10 @@
         {
             "label": "starlight-example",
             "type": "shell",
-            "command": "build/example/starlight-example"
-        },{
+            "command": "build/example/starlight-example",
+            "problemMatcher": []
+        },
+        {
             "label": "starlight-test",
             "type": "shell",
             "command": "build/test/starlight-test",
@@ -15,6 +17,5 @@
                 "-s"
             ]
         }
-    
     ]
 }

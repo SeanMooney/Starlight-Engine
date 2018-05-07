@@ -47,6 +47,12 @@
             "browse": {
                 "path": [
                     "${workspaceFolder}",
+                    "${workspaceFolder}/external/fakeit/include",
+                    "${workspaceFolder}/external/fakeit/single_header/catch",
+                    "${workspaceFolder}/external/vcpgk/installed/x64-linux/include",
+                    "${workspaceFolder}/core/include",
+                    "${workspaceFolder}/test/include",
+                    "${workspaceFolder}/example/include",
                     "/usr/include/c++/7",
                     "/usr/include/x86_64-linux-gnu/c++/7",
                     "/usr/include/c++/7/backward",
