@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 
 #include <cereal/archives/json.hpp>
 #include <cereal/archives/portable_binary.hpp>

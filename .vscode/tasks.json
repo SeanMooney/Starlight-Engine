@@ -15,7 +15,8 @@
             "command": "build/test/starlight-test",
             "args": [
                 "-s"
-            ]
+            ],
+            "problemMatcher": []
         }
     ]
 }

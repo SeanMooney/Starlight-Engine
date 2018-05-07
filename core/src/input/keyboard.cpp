@@ -28,7 +28,7 @@ Keyboard::Keyboard() {
 
 void Keyboard::registerWindowCallback(Window* window) {
     keyboardMap[window] = this;
-    glfwSetKeyCallback(window->get(), key_callback);
+    if (window != nullptr) glfwSetKeyCallback(window->get(), key_callback);
 }
 
 } // namespace starlight::core::input

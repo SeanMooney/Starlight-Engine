@@ -3,8 +3,9 @@ set (EXTERNAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../external)
 set (PKG_ROOT ${EXTERNAL_ROOT}/vcpkg/packages)
 include_directories(${PKG_ROOT}/catch ${EXTERNAL_ROOT}/fakeit/include
                     ${EXTERNAL_ROOT}/fakeit/single_header/standalone)
-
-set(TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+set(TEST_SRC_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(TEST_SOURCES ${TEST_SRC_PREFIX}/main.cpp 
+   ${TEST_SRC_PREFIX}/core/input/mouse.cpp ${TEST_SRC_PREFIX}/core/input/keyboard.cpp
     ${EXTERNAL_ROOT}/fakeit/single_header/standalone/fakeit.hpp)
 
 add_executable(starlight-test ${TEST_SOURCES})

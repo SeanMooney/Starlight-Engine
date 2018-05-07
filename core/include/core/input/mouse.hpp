@@ -27,12 +27,12 @@ class Mouse {
     using Window = starlight::core::gfx::Window;
 
   private:
-    static std::unordered_map<Window*, Mouse*> mouseMap;
-    SLC_DOUBLE pos[2];
     bool dirty = false;
+    std::array<SLC_DOUBLE,2> pos;
+    std::array<PressedState, MouseButtons::MOUSE_BUTTON_LAST + 1> buttons;
+    static std::unordered_map<Window*, Mouse*> mouseMap;
 
   private:
-    std::array<PressedState,MouseButtons::MOUSE_BUTTON_LAST + 1> buttons;
     friend void button_callback(GLFWwindow* window, SLC_INT32 button, SLC_INT32 action, SLC_INT32 modifer);
     friend void cursor_callback(GLFWwindow* window, SLC_DOUBLE x, SLC_DOUBLE y);
 

@@ -13,7 +13,7 @@ struct SomeInterface {
 namespace starlight::core{
 using namespace fakeit;
 
-TEST_CASE( "life, the universe, everything", "[answer]" ) {
+TEST_CASE("life, the universe, everything", "[answer]") {
     REQUIRE( Shared::answer == 42 );
 }
 

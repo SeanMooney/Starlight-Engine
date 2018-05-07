@@ -4,5 +4,17 @@
     ],
     "cmake.configureSettings": {
         "CMAKE_POSITION_INDEPENDENT_CODE": "True"
+    },
+    "files.associations": {
+        "*.inc": "cpp",
+        "*.ipp": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "functional": "cpp",
+        "future": "cpp",
+        "istream": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "variant": "cpp"
     }
 }

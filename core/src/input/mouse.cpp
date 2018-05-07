@@ -5,8 +5,11 @@ using starlight::core::gfx::Window;
 using starlight::core::input::Mouse;
 
 std::unordered_map<Window*, Mouse*> Mouse::mouseMap = {};
-Mouse::Mouse(){
-for(auto& b : buttons) b=PressedState::unpressed;
+Mouse::Mouse() : dirty(false) {
+    for (auto& b : buttons)
+        b = PressedState::unpressed;
+    for (auto& p : pos)
+        p = 0.0;
 }
 /*! @brief The function signature for mouse button callbacks.
  *  @param[in] window The window that received the event.
@@ -45,7 +48,9 @@ void cursor_callback(GLFWwindow* window, double x, double y) {
 
 void Mouse::registerWindowCallback(Window* window) {
     mouseMap[window] = this;
-    glfwSetMouseButtonCallback(window->get(), button_callback);
-    glfwSetCursorPosCallback(window->get(), cursor_callback);
+    if (window != nullptr) {
+        glfwSetMouseButtonCallback(window->get(), button_callback);
+        glfwSetCursorPosCallback(window->get(), cursor_callback);
+    }
 }
 } // namespace starlight::core::input
