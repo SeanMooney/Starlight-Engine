@@ -3,9 +3,9 @@
 #include <unordered_map>
 
 #include <core/gfx/window.hpp>
+#include <core/input/enum.hpp>
 
 namespace starlight::core::input {
-
 enum MouseButtons {
     MOUSE_BUTTON_1 = 0,
     MOUSE_BUTTON_2 = 1,
@@ -22,6 +22,7 @@ enum MouseButtons {
     MOUSE_BUTTON_MIDDLE = MOUSE_BUTTON_3
 };
 class Mouse {
+    #include <core/input/enum.hpp>
     friend class InputManager;
     using Window = starlight::core::gfx::Window;
 
@@ -31,13 +32,12 @@ class Mouse {
     bool dirty = false;
 
   private:
-    bool buttons[MouseButtons::MOUSE_BUTTON_LAST + 1] = {false};
-    bool buttons_helded[MouseButtons::MOUSE_BUTTON_LAST + 1] = {false};
+    std::array<PressedState,MouseButtons::MOUSE_BUTTON_LAST + 1> buttons;
     friend void button_callback(GLFWwindow* window, SLC_INT32 button, SLC_INT32 action, SLC_INT32 modifer);
     friend void cursor_callback(GLFWwindow* window, SLC_DOUBLE x, SLC_DOUBLE y);
 
   public:
-    Mouse() = default;
+    Mouse();
     ~Mouse() = default;
     void registerWindowCallback(Window* window);
 };

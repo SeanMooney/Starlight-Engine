@@ -1,4 +1,8 @@
 #pragma once
+
+#include <chrono>
+#include <thread>
+
 #include <core/core.hpp>
 #include <core/gfx/gfx.hpp>
 #include <core/input/manager.hpp>

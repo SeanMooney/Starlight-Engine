@@ -14,57 +14,36 @@ void InputManager::registerWindowCallback(Window* window) {
 void InputManager::pollEvents() {
     if (keyboard.dirty) {
         for (auto it : keyEvents) {
-            if (keyboard.keys[it.first.first]) {
-                auto& heldState = keyboard.heldKeys[it.first.first];
-                auto& triggerState = it.first.second;
-                switch (triggerState) {
-                    case PressedState::pressed:
-                        if (!heldState) inputEvents.push(it.second);
-                        break;
-                    case PressedState::held:
-                        if (heldState) inputEvents.push(it.second);
-                        break;
-                    case PressedState::pressedOrHeld:
-                        inputEvents.push(it.second);
-                        break;
-                    default:
-                        break;
-                }
+            auto& triggerState = it.first.second;
+            auto& currentState = keyboard.keys[it.first.first];
+            if (triggerState == currentState
+                || (triggerState == PressedState::pressedOrHeld
+                    && (currentState == PressedState::pressed || currentState == PressedState::held))) {
+                inputEvents.push(it.second);
             }
         }
-        keyboard.dirty = false;
     }
+    keyboard.dirty = false;
+
     if (mouse.dirty) {
         for (auto it : mouseEvents) {
             auto& triggerState = it.first.second;
-            if (mouse.buttons[it.first.first]) {
-                auto& heldState = mouse.buttons_helded[it.first.first];
-                switch (triggerState) {
-                    case PressedState::pressed:
-                        if (!heldState) inputEvents.push(it.second);
-                        break;
-                    case PressedState::held:
-                        if (heldState) inputEvents.push(it.second);
-                        break;
-                    case PressedState::pressedOrHeld:
-                        inputEvents.push(it.second);
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                if (triggerState == PressedState::unpressed) inputEvents.push(it.second);
+            auto& currentState = mouse.buttons[it.first.first];
+            if (triggerState == currentState
+                || (triggerState == PressedState::pressedOrHeld
+                    && (currentState == PressedState::pressed || currentState == PressedState::held))) {
+                inputEvents.push(it.second);
             }
-            mouse.dirty = false;
         }
+            mouse.dirty = false;
     }
 }
 
 void InputManager::processEvents() {
     while (!inputEvents.empty()) {
-        auto func = inputEvents.front();
-        inputEvents.pop();
+        auto& func = inputEvents.front();
         func();
+        inputEvents.pop();
     }
 }
 

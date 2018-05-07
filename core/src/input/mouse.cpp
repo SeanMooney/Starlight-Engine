@@ -5,7 +5,9 @@ using starlight::core::gfx::Window;
 using starlight::core::input::Mouse;
 
 std::unordered_map<Window*, Mouse*> Mouse::mouseMap = {};
-
+Mouse::Mouse(){
+for(auto& b : buttons) b=PressedState::unpressed;
+}
 /*! @brief The function signature for mouse button callbacks.
  *  @param[in] window The window that received the event.
  *  @param[in] button The [mouse button](@ref buttons) that was pressed or
@@ -15,18 +17,19 @@ std::unordered_map<Window*, Mouse*> Mouse::mouseMap = {};
  *  held down.
  */
 void button_callback(GLFWwindow* window, SLC_INT32 button, SLC_INT32 action, SLC_INT32 modifer) {
+    using PressedState = starlight::core::input::PressedState;
     Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-    bool& pb = Mouse::mouseMap[win]->buttons[button];
-    bool& hb = Mouse::mouseMap[win]->buttons_helded[button];
+    auto& pb = Mouse::mouseMap[win]->buttons[button];
     bool& dirty = Mouse::mouseMap[win]->dirty;
     switch (action) {
         case GLFW_REPEAT:
+            pb = PressedState::held;
+            break;
         case GLFW_PRESS:
-            if (pb) hb = pb;
-            pb = true;
+            pb = PressedState::pressed;
             break;
         case GLFW_RELEASE:
-            pb = false;
+            pb = PressedState::unpressed;
             break;
     }
     dirty = true;

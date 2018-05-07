@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 #include <core/gfx/window.hpp>
+#include <core/input/enum.hpp>
 
 namespace starlight::core::input {
 enum Keycodes {
@@ -141,15 +142,14 @@ class Keyboard {
 
   private:
     static std::unordered_map<Window*, Keyboard*> keyboardMap;
-    bool keys[Keycodes::KEY_LAST + 1] = {false};
-    bool heldKeys[Keycodes::KEY_LAST + 1] = {false};
+    std::array<PressedState, Keycodes::KEY_LAST + 1> keys;
     bool dirty = false;
 
   private:
     friend void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
   public:
-    Keyboard() = default;
+    Keyboard();
     ~Keyboard() = default;
     void registerWindowCallback(Window* window);
 };

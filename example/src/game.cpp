@@ -16,19 +16,17 @@ Game::Game(const std::string& path) {
     init();
 }
 
-
 void Game::init() {
-    #define Debug() std::cout
+#define Debug() std::cout
     glfw = std::make_unique<GLFW>();
     window = std::make_unique<Window>(1920, 1080, "Starlight Example");
     input = std::make_unique<Input>();
     input->registerWindowCallback(window.get());
     registerKeyboardCallbacks();
     registerMouseCallbacks();
-
 }
 
-void Game::registerKeyboardCallbacks(){
+void Game::registerKeyboardCallbacks() {
 
     auto terminate = [window = window->get()]() { glfwSetWindowShouldClose(window, GL_TRUE); };
     auto trigger = std::make_pair(Keycodes::KEY_ESCAPE, PressedState::pressed);
@@ -45,10 +43,9 @@ void Game::registerKeyboardCallbacks(){
     };
     trigger = std::make_pair(Keycodes::KEY_SPACE, PressedState::held);
     input->registerKeyboardEvent(trigger, printRepeat);
-
 }
 
-void Game::registerMouseCallbacks(){
+void Game::registerMouseCallbacks() {
     auto printPos = [im = input.get()]() {
         auto pos = im->getMouseLocation();
         Debug() << "POS X: " << pos[0] << " POS Y: " << pos[1] << std::endl;
@@ -63,13 +60,17 @@ void Game::registerMouseCallbacks(){
     input->registerMouseEvent(trigger, printPosUnpressed);
 }
 
-void Game::run() const{
+void Game::run() const {
     auto windowPTR = window->get();
     /* Make the window's context current */
     glfwMakeContextCurrent(windowPTR);
-
+    using Clock = std::chrono::system_clock;
+    using FrameDuration = std::chrono::milliseconds;
+    FrameDuration frame(16);
+    auto target = Clock::now() + frame;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(windowPTR)) {
+
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -80,6 +81,8 @@ void Game::run() const{
         glfwPollEvents();
         input->pollEvents();
         input->processEvents();
+        std::this_thread::sleep_until(target);
+        target = Clock::now() + frame;
     }
 }
-}
+} // namespace starlight::example

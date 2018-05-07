@@ -5,20 +5,25 @@ std::unordered_map<Window*, Keyboard*> Keyboard::keyboardMap = {};
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int modifer) {
     Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-    bool& pk = Keyboard::keyboardMap[win]->keys[key];
-    bool& hk = Keyboard::keyboardMap[win]->heldKeys[key];
+    auto& pk = Keyboard::keyboardMap[win]->keys[key];
     bool& dirty = Keyboard::keyboardMap[win]->dirty;
     switch (action) {
         case GLFW_REPEAT:
+            pk = PressedState::held;
+            break;
         case GLFW_PRESS:
-            if (pk) hk = pk;
-            pk = true;
+            pk = PressedState::pressed;
             break;
         case GLFW_RELEASE:
-            hk = pk = false;
+            pk = PressedState::unpressed;
             break;
     }
     dirty = true;
+}
+
+Keyboard::Keyboard() {
+    for (auto& k : keys)
+        k = PressedState::unpressed;
 }
 
 void Keyboard::registerWindowCallback(Window* window) {
