@@ -7,6 +7,7 @@ using Window = starlight::core::gfx::Window;
 using Keycodes = starlight::core::input::Keycodes;
 using MouseButtons = starlight::core::input::MouseButtons;
 using Input = starlight::core::input::InputManager;
+using PressedState = starlight::core::input::PressedState;
 
 namespace starlight::example {
 std::string Game::exeLocation = "";
@@ -30,19 +31,19 @@ void Game::init() {
 void Game::registerKeyboardCallbacks(){
 
     auto terminate = [window = window->get()]() { glfwSetWindowShouldClose(window, GL_TRUE); };
-    auto trigger = std::make_pair(Keycodes::KEY_ESCAPE, false);
+    auto trigger = std::make_pair(Keycodes::KEY_ESCAPE, PressedState::pressed);
     input->registerKeyboardEvent(trigger, terminate);
     auto print = [window = window->get()]() {
         static int count = 0;
         Debug() << "this is a test: " << count++ << std::endl;
     };
-    trigger = std::make_pair(Keycodes::KEY_SPACE, false);
+    trigger = std::make_pair(Keycodes::KEY_SPACE, PressedState::pressed);
     input->registerKeyboardEvent(trigger, print);
     auto printRepeat = [window = window->get()]() {
         static int count = 0;
         Debug() << "this is a repeat test: " << count++ << std::endl;
     };
-    trigger = std::make_pair(Keycodes::KEY_SPACE, true);
+    trigger = std::make_pair(Keycodes::KEY_SPACE, PressedState::held);
     input->registerKeyboardEvent(trigger, printRepeat);
 
 }
@@ -50,11 +51,16 @@ void Game::registerKeyboardCallbacks(){
 void Game::registerMouseCallbacks(){
     auto printPos = [im = input.get()]() {
         auto pos = im->getMouseLocation();
-        Debug() << pos << std::endl;
         Debug() << "POS X: " << pos[0] << " POS Y: " << pos[1] << std::endl;
     };
-    auto trigger = std::make_pair(MouseButtons::MOUSE_BUTTON_RIGHT, false);
+    auto trigger = std::make_pair(MouseButtons::MOUSE_BUTTON_RIGHT, PressedState::pressedOrHeld);
     input->registerMouseEvent(trigger, printPos);
+    auto printPosUnpressed = [im = input.get()]() {
+        auto pos = im->getMouseLocation();
+        Debug() << "UNPRESSED POS X: " << pos[0] << " POS Y: " << pos[1] << std::endl;
+    };
+    trigger = std::make_pair(MouseButtons::MOUSE_BUTTON_RIGHT, PressedState::unpressed);
+    input->registerMouseEvent(trigger, printPosUnpressed);
 }
 
 void Game::run() const{
