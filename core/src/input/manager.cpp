@@ -7,9 +7,9 @@ using MouseButtons = starlight::core::input::MouseButtons;
 using PressedState = starlight::core::input::PressedState;
 
 InputManager::InputManager() : InputManager(std::make_unique<Keyboard>(), std::make_unique<Mouse>()) {}
-InputManager::InputManager(std::unique_ptr<Keyboard>&& keyboard, std::unique_ptr<Mouse>&& mouse) {
-    keyboard = std::move<>(keyboard);
-    mouse = std::move<>(mouse);
+InputManager::InputManager(std::unique_ptr<Keyboard>&& kb, std::unique_ptr<Mouse>&& m) {
+    keyboard = std::move<>(kb);
+    mouse = std::move<>(m);
     keyEvents = {};
     mouseEvents = {};
     inputEvents = {};
@@ -21,30 +21,33 @@ void InputManager::registerWindowCallback(Window* window) {
 }
 
 void InputManager::pollEvents() {
-    if (keyboard->dirty) {
-        for (auto it : keyEvents) {
-            auto& triggerState = it.first.second;
-            auto& currentState = keyboard->keys[it.first.first];
-            if (triggerState == currentState
-                || (triggerState == PressedState::pressedOrHeld
-                    && (currentState == PressedState::pressed || currentState == PressedState::held))) {
-                inputEvents.push(it.second);
+    if (keyboard) {
+        if (keyboard->dirty) {
+            for (auto it : keyEvents) {
+                auto& triggerState = it.first.second;
+                auto& currentState = keyboard->keys[it.first.first];
+                if (triggerState == currentState
+                    || (triggerState == PressedState::pressedOrHeld
+                        && (currentState == PressedState::pressed || currentState == PressedState::held))) {
+                    inputEvents.push(it.second);
+                }
             }
         }
+        keyboard->dirty = false;
     }
-    keyboard->dirty = false;
-
-    if (mouse->dirty) {
-        for (auto it : mouseEvents) {
-            auto& triggerState = it.first.second;
-            auto& currentState = mouse->buttons[it.first.first];
-            if (triggerState == currentState
-                || (triggerState == PressedState::pressedOrHeld
-                    && (currentState == PressedState::pressed || currentState == PressedState::held))) {
-                inputEvents.push(it.second);
+    if (mouse) {
+        if (mouse->dirty) {
+            for (auto it : mouseEvents) {
+                auto& triggerState = it.first.second;
+                auto& currentState = mouse->buttons[it.first.first];
+                if (triggerState == currentState
+                    || (triggerState == PressedState::pressedOrHeld
+                        && (currentState == PressedState::pressed || currentState == PressedState::held))) {
+                    inputEvents.push(it.second);
+                }
             }
+            mouse->dirty = false;
         }
-        mouse->dirty = false;
     }
 }
 

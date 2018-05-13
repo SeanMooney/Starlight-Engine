@@ -26,20 +26,24 @@ GENERATE_EXPORT_HEADER( starlight-core
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../external/vcpkg/scripts/buildsystems/vcpkg.cmake)
-find_package(cereal REQUIRED)
 
 set (EXTERNAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../external/vcpkg/installed/x64-linux)
 
-add_library(glew STATIC IMPORTED) # or STATIC instead of SHARED
+add_library(glew STATIC IMPORTED)
 set_target_properties(glew PROPERTIES
-  IMPORTED_LOCATION "${EXTERNAL_ROOT}/lib/libGLEW.a"
-  INTERFACE_INCLUDE_DIRECTORIES "${EXTERNAL_ROOT}/include/GL"
+IMPORTED_LOCATION "${EXTERNAL_ROOT}/lib/libGLEW.a"
+INTERFACE_INCLUDE_DIRECTORIES "${EXTERNAL_ROOT}/include/GL"
 )
 
-add_library(glfw3 STATIC IMPORTED) # or STATIC instead of SHARED
+add_library(glfw3 STATIC IMPORTED)
 set_target_properties(glfw3 PROPERTIES
-  IMPORTED_LOCATION "${EXTERNAL_ROOT}/lib/libglfw3.a"
-  INTERFACE_INCLUDE_DIRECTORIES "${EXTERNAL_ROOT}/include/GLFW"
+IMPORTED_LOCATION "${EXTERNAL_ROOT}/lib/libglfw3.a"
+INTERFACE_INCLUDE_DIRECTORIES "${EXTERNAL_ROOT}/include/GLFW"
 )
+
+target_include_directories(starlight-core PUBLIC
+    ${EXTERNAL_ROOT}/vcpkg/installed/x64-linux/gsl/include)
+
+find_package(cereal REQUIRED)
 set (GL_LINKS GL GLU X11 Xxf86vm Xrandr pthread Xi Xcursor Xinerama m dl )
-target_link_libraries (starlight-core LINK_PUBLIC ${GL_LINKS} cereal glew glfw3 )
+target_link_libraries (starlight-core LINK_PUBLIC ${GL_LINKS} cereal glew glfw3)

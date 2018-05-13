@@ -8,6 +8,8 @@
 #include <cereal/archives/portable_binary.hpp>
 #include <cereal/archives/xml.hpp>
 
+#include <gsl/gsl>
+
 #include <core/starlightapi.hpp>
 
 using SLC_UINT = uint_fast32_t;

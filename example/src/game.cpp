@@ -17,7 +17,6 @@ Game::Game(const std::string& path) {
 }
 
 void Game::init() {
-#define Debug() std::cout
     glfw = std::make_unique<GLFW>();
     window = std::make_unique<Window>(1920, 1080, "Starlight Example");
     input = std::make_unique<Input>();
@@ -26,6 +25,8 @@ void Game::init() {
     registerMouseCallbacks();
 }
 
+// TODO: replase with loging framework.
+#define Debug() std::cout
 void Game::registerKeyboardCallbacks() {
 
     auto terminate = [window = window->get()]() { glfwSetWindowShouldClose(window, GL_TRUE); };
@@ -59,6 +60,7 @@ void Game::registerMouseCallbacks() {
     trigger = std::make_pair(MouseButtons::MOUSE_BUTTON_RIGHT, PressedState::unpressed);
     input->registerMouseEvent(trigger, printPosUnpressed);
 }
+#undef Debug
 
 void Game::run() const {
     auto windowPTR = window->get();
