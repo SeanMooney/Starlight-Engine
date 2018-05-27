@@ -21,17 +21,18 @@ class STARLIGHTAPI InputManager {
     std::queue<std::function<void()>> inputEvents;
     std::unique_ptr<Keyboard> keyboard;
     std::unique_ptr<Mouse> mouse;
+    const Core* core;
 
   public:
-    InputManager();
-    InputManager(std::unique_ptr<Keyboard>&& keyboard, std::unique_ptr<Mouse>&& mouse);
+    InputManager(const Core* core);
+    InputManager(const Core* core, std::unique_ptr<Keyboard>&& keyboard, std::unique_ptr<Mouse>&& mouse);
     ~InputManager() = default;
     void registerWindowCallback(Window* window);
     void pollEvents();
     void processEvents();
     void registerKeyboardEvent(std::pair<Keycodes, PressedState> key, std::function<void()> func);
     void registerMouseEvent(std::pair<MouseButtons, PressedState> button, std::function<void()> func);
-    std::array<SLC_DOUBLE,2> const getMouseLocation() const;
+    std::array<SLC_DOUBLE, 2> const getMouseLocation() const;
 };
 
 } // namespace starlight::core::input

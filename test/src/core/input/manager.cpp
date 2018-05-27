@@ -22,7 +22,8 @@ TAG_V(InputManager, mouse, std::unique_ptr<Mouse>);
 SCENARIO("input mangers support mouse and keyboard", "[input,inputManager]") {
 
     GIVEN("An inputmanager im") {
-        InputManager im;
+        Core core;
+        InputManager im={&core};
 
         auto& keyEvents = im.*saved_private_v<InputManager_keyEvents>;
         auto& mouseEvents = im.*saved_private_v<InputManager_mouseEvents>;

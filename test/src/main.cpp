@@ -14,7 +14,7 @@ namespace starlight::core{
 using namespace fakeit;
 
 TEST_CASE("life, the universe, everything", "[answer]") {
-    REQUIRE( Shared::answer == 42 );
+    REQUIRE( Core::answer == 42 );
 }
 
 TEST_CASE("Test MOCKING", "[Mocking]") {

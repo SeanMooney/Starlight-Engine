@@ -7,16 +7,20 @@ void GLFW::error_callback(int error, const char* description) {
 }
 
 void GLFW::destroy() const noexcept {
-    glfwTerminate();
+        glfwTerminate();
 }
 
-GLFW::GLFW() {
+GLFW::GLFW(const Core* core):core(core) {
+    const auto& logger = core->logManager->get(core->loggerName);
+    logger->info("GLFW initalising");
     ret = glfwInit();
     if (!ret) {
+        logger->error("GLFW failed");
         destroy();
         THROW("glfwInit failed");
     }
     glfwSetErrorCallback(error_callback);
+    logger->info("GLFW initalised");
 }
 
 GLFW::~GLFW() { destroy(); }

@@ -16,4 +16,4 @@ sudo apt install -y  xorg-dev libgl-dev libglu-dev
 #clean src deps
 ${toolDir}/../external/vcpkg/vcpkg list | cut -f 1 -d ":" | xargs ${toolDir}/../external/vcpkg/vcpkg remove
 #install src deps
-${toolDir}/../external/vcpkg/vcpkg install glew glfw3 cereal catch2 ms-gsl spdlog bullet3 glm
+${toolDir}/../external/vcpkg/vcpkg install glew glfw3 cereal catch2 ms-gsl spdlog bullet3 glm liblzma

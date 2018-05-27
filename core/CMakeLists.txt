@@ -5,10 +5,12 @@ project (starlight-core CXX)
 set (CORE_INCLUDE_files include/core/core.hpp  include/core/gfx/gfx.hpp
      include/core/gfx/gl.hpp include/core/gfx/window.hpp include/core/gfx/glfw.hpp
      include/core/input/keyboard.hpp include/core/input/mouse.hpp
-     include/core/input/manager.hpp)
+     include/core/input/manager.hpp include/core/utils/file.hpp
+     include/core/utils/log.hpp)
 
      set (CORE_SRC src/gfx/window.cpp src/gfx/glfw.cpp 
-          src/input/keyboard.cpp src/input/mouse.cpp src/input/manager.cpp) 
+          src/input/keyboard.cpp src/input/mouse.cpp src/input/manager.cpp
+          src/utils/file.cpp)
 
 
 add_library (starlight-core ${CORE_INCLUDE} ${CORE_SRC})
@@ -35,6 +37,13 @@ IMPORTED_LOCATION "${EXTERNAL_ROOT}/lib/libGLEW.a"
 INTERFACE_INCLUDE_DIRECTORIES "${EXTERNAL_ROOT}/include/GL"
 )
 
+find_package(LibLZMA REQUIRED)
+
+find_package(fmt REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+find_package(Threads REQUIRED)
+set(SPDLOG_LIBS fmt::fmt spdlog::spdlog Threads::Threads)
+
 add_library(glfw3 STATIC IMPORTED)
 set_target_properties(glfw3 PROPERTIES
 IMPORTED_LOCATION "${EXTERNAL_ROOT}/lib/libglfw3.a"
@@ -42,8 +51,10 @@ INTERFACE_INCLUDE_DIRECTORIES "${EXTERNAL_ROOT}/include/GLFW"
 )
 
 target_include_directories(starlight-core PUBLIC
-    ${EXTERNAL_ROOT}/vcpkg/installed/x64-linux/gsl/include)
+                           ${EXTERNAL_ROOT}/vcpkg/installed/x64-linux/gsl/include)
+target_include_directories(starlight-core PRIVATE ${LIBLZMA_INCLUDE_DIRS})
 
 find_package(cereal REQUIRED)
 set (GL_LINKS GL GLU X11 Xxf86vm Xrandr pthread Xi Xcursor Xinerama m dl )
-target_link_libraries (starlight-core LINK_PUBLIC ${GL_LINKS} cereal glew glfw3)
+target_link_libraries (starlight-core LINK_PUBLIC ${GL_LINKS} cereal glew glfw3
+                      ${SPDLOG_LIBS} ${LIBLZMA_LIBRARIES})

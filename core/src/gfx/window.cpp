@@ -2,7 +2,10 @@
 
 namespace starlight::core::gfx {
 
-Window::Window(int width, int height, const char* title) : width(width), height(height), ratio(width / (float)height) {
+Window::Window(const Core* core, const int width, const int height, const char* title)
+    : core(core), width(width), height(height), ratio(width / (float)height) {
+    const auto& logger = core->logManager->get(core->loggerName);
+    logger->info("creating window({}): height={} width={}",title,width,height);
     init(width, height, title);
 }
 Window::~Window() { destroy(); }
@@ -17,7 +20,7 @@ void window_size_callback(GLFWwindow* window, int width, int height) noexcept {
     //                                 << "width: " << win->width << ", height:" << win->height << std::endl;
 }
 
-void Window::init(int width, int height, const char* title) {
+void Window::init(const int width, const int height, const char* title) {
     window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (!window) THROW("window creation failed");
     glfwMakeContextCurrent(window);

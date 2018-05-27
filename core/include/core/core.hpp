@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -8,37 +9,25 @@
 #include <cereal/archives/portable_binary.hpp>
 #include <cereal/archives/xml.hpp>
 
+#include <core/macros.hpp>
+#include <core/starlightapi.hpp>
 #include <gsl/gsl>
 
-#include <core/starlightapi.hpp>
-
-using SLC_UINT = uint_fast32_t;
-using SLC_INT = int_fast32_t;
-using SLC_UINT32 = uint32_t;
-using SLC_INT32 = int32_t;
-using SLC_LONG = int_fast64_t;
-using SLC_FLOAT = float;
-using SLC_DOUBLE = double;
-using SLC_CHAR = u_char;
-
-#if defined(STARLIGHT_DEBUG_OUTPUT) // define to enable addtional debug code
-#define STARLIGHT_DEBUG 1
-#else
-#define STARLIGHT_DEBUG 0
-#endif
-
-// standard exception message creation.
-#define THROW(msg) std::throw_with_nested(std::runtime_error(msg));
-
-// suppress unused function/param
-#define SUPPRESS_UNUSED(a) (void)a
-
-#define STARLIGHT_OUTPUT_ARCHIVE cereal::BinaryOutputArchive
-#define STARLIGHT_INPUT_ARCHIVE cereal::BinaryInputArchive
+#include <core/utils/log.hpp>
 
 namespace starlight::core {
-class STARLIGHTAPI Shared {
-  public:
+struct STARLIGHTAPI Core {
+    using LogManager = starlight::core::utils::LogManager;
+    using LogType = starlight::core::utils::LogType;
+    using LogConfigs = std::vector<starlight::core::utils::LogConfig>;
+
     constexpr const static int answer = 42;
+    const SLC_CHAR* loggerName;
+    std::unique_ptr<LogManager> logManager;
+    Core() : loggerName("system") { logManager = std::make_unique<LogManager>(); }
+    Core(LogConfigs&& logConfig) : loggerName("system") {
+        logManager = std::make_unique<LogManager>(std::forward<LogConfigs>(logConfig));
+    }
 };
+
 } // namespace starlight::core

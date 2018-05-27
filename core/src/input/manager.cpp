@@ -6,13 +6,15 @@ using Keycodes = starlight::core::input::Keycodes;
 using MouseButtons = starlight::core::input::MouseButtons;
 using PressedState = starlight::core::input::PressedState;
 
-InputManager::InputManager() : InputManager(std::make_unique<Keyboard>(), std::make_unique<Mouse>()) {}
-InputManager::InputManager(std::unique_ptr<Keyboard>&& kb, std::unique_ptr<Mouse>&& m) {
+InputManager::InputManager(const Core* core) : InputManager(core, std::make_unique<Keyboard>(), std::make_unique<Mouse>()) {}
+InputManager::InputManager(const Core* core, std::unique_ptr<Keyboard>&& kb, std::unique_ptr<Mouse>&& m) : core(core) {
     keyboard = std::move<>(kb);
     mouse = std::move<>(m);
     keyEvents = {};
     mouseEvents = {};
     inputEvents = {};
+    const auto& logger = core->logManager->get(core->loggerName);
+    logger->info("creating input manager");
 }
 
 void InputManager::registerWindowCallback(Window* window) {

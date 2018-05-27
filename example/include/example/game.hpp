@@ -6,17 +6,20 @@
 #include <core/core.hpp>
 #include <core/gfx/gfx.hpp>
 #include <core/input/manager.hpp>
+#include <core/utils/log.hpp>
 
 namespace starlight::example {
+using Core = starlight::core::Core;
 using GLFW = starlight::core::gfx::GLFW;
 using Window = starlight::core::gfx::Window;
 using Input = starlight::core::input::InputManager;
 class Game {
   private:
+    std::unique_ptr<Core> core;
     std::unique_ptr<GLFW> glfw;
     std::unique_ptr<Window> window;
     std::unique_ptr<Input> input;
-    // std::unique_ptr<InputManager>inputManager;
+    bool frameLimit = true;
   protected:
     void registerKeyboardCallbacks();
     void registerMouseCallbacks();
