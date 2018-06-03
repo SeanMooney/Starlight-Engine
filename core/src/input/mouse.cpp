@@ -20,6 +20,7 @@ Mouse::Mouse() : dirty(false) {
  *  held down.
  */
 void button_callback(GLFWwindow* window, SLC_INT32 button, SLC_INT32 action, SLC_INT32 modifer) {
+    SUPPRESS_UNUSED(modifer);
     using PressedState = starlight::core::input::PressedState;
     Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
     auto& pb = Mouse::mouseMap[win]->buttons[button];

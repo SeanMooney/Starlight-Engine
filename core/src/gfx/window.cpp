@@ -4,7 +4,7 @@ namespace starlight::core::gfx {
 
 Window::Window(const Core* core, const int width, const int height, const char* title)
     : core(core), width(width), height(height), ratio(width / (float)height) {
-    const auto& logger = core->logManager->get(core->loggerName);
+    const auto& logger = this->core->logManager->get(core->loggerName);
     logger->info("creating window({}): height={} width={}",title,width,height);
     init(width, height, title);
 }

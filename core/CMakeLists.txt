@@ -1,5 +1,12 @@
 
 project (starlight-core CXX)
+
+# warnings are errors but only for debug
+# optimise for storage size on release and debug/storage otherwise
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Os -Og -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+
+
 # Create a library called "core" which includes the header file "core.hpp".
 # The extension is already found. Any number of sources could be listed here.
 set (CORE_INCLUDE_files include/core/core.hpp  include/core/gfx/gfx.hpp

@@ -13,7 +13,7 @@ InputManager::InputManager(const Core* core, std::unique_ptr<Keyboard>&& kb, std
     keyEvents = {};
     mouseEvents = {};
     inputEvents = {};
-    const auto& logger = core->logManager->get(core->loggerName);
+    const auto& logger = this->core->logManager->get(core->loggerName);
     logger->info("creating input manager");
 }
 

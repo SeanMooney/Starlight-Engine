@@ -10,6 +10,11 @@ set(TEST_SOURCES ${TEST_SRC_PREFIX}/main.cpp ${TEST_SRC_PREFIX}/core/input/mouse
 
 add_executable(starlight-test ${TEST_SOURCES})
 
+# warnings are errors but only for debug
+# optimise for storage size on release and debug/storage otherwise
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Os -Og -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+
 set_target_properties(starlight-test PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories (starlight-test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries (starlight-test LINK_PUBLIC starlight-core)

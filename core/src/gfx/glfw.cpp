@@ -11,7 +11,7 @@ void GLFW::destroy() const noexcept {
 }
 
 GLFW::GLFW(const Core* core):core(core) {
-    const auto& logger = core->logManager->get(core->loggerName);
+    const auto& logger = this->core->logManager->get(core->loggerName);
     logger->info("GLFW initalising");
     ret = glfwInit();
     if (!ret) {

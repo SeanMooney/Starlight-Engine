@@ -1,4 +1,10 @@
 project (starlight-example CXX)
+
+# warnings are errors but only for debug
+# optimise for storage size on release and debug/storage otherwise
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Os -Og -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+
 set (EXAMPLE_INCLUDE include/example/game.hpp)
 set (EXAMPLE_SRC src/main.cpp src/game.cpp)
 add_executable (starlight-example ${EXAMPLE_INCLUDE} ${EXAMPLE_SRC})

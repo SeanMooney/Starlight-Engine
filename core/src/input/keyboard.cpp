@@ -4,6 +4,9 @@ using starlight::core::gfx::Window;
 std::unordered_map<Window*, Keyboard*> Keyboard::keyboardMap = {};
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int modifer) {
+    SUPPRESS_UNUSED(scancode); // ignore scancode for now
+    SUPPRESS_UNUSED(modifer); // ignore modifers for now
+
     Window* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
     auto& pk = Keyboard::keyboardMap[win]->keys[key];
     bool& dirty = Keyboard::keyboardMap[win]->dirty;
