@@ -24,7 +24,7 @@ SCENARIO("keybaoards can trigger actions when buttons are pressed", "[keyboard]"
         auto& dirty = k.*saved_private_v<Keyboard_dirty>;
         auto& keyboardMap = *saved_private_v<Keyboard_keyboardMap>;
 
-        WHEN("A k is constructed all fields are initilised") {
+        WHEN("k is constructed all fields are initilised") {
             for (auto& k : keys)
                 REQUIRE(k == PressedState::unpressed);
             REQUIRE_FALSE(dirty);

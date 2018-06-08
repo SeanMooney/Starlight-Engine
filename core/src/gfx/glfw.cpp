@@ -3,7 +3,8 @@
 namespace starlight::core::gfx {
 
 void GLFW::error_callback(int error, const char* description) {
-    std::cerr << "error code: " << error << std::endl << "message: " << description << std::endl;
+    const auto& logger = spdlog::get("system");
+    logger->error("GLFW ERROR\nError code: {}\nMessage: {}",error,description);
 }
 
 void GLFW::destroy() const noexcept {

@@ -1,8 +1,8 @@
 #pragma once
 
+#include <deque>
 #include <functional>
 #include <map>
-#include <queue>
 
 #include <core/core.hpp>
 #include <core/gfx/window.hpp>
@@ -18,7 +18,7 @@ class STARLIGHTAPI InputManager {
   private:
     std::map<std::pair<Keycodes, PressedState>, std::function<void()>> keyEvents;
     std::map<std::pair<MouseButtons, PressedState>, std::function<void()>> mouseEvents;
-    std::queue<std::function<void()>> inputEvents;
+    std::deque<std::function<void()>> inputEvents;
     std::unique_ptr<Keyboard> keyboard;
     std::unique_ptr<Mouse> mouse;
     const Core* core;

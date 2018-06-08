@@ -6,7 +6,8 @@ using Keycodes = starlight::core::input::Keycodes;
 using MouseButtons = starlight::core::input::MouseButtons;
 using PressedState = starlight::core::input::PressedState;
 
-InputManager::InputManager(const Core* core) : InputManager(core, std::make_unique<Keyboard>(), std::make_unique<Mouse>()) {}
+InputManager::InputManager(const Core* core)
+    : InputManager(core, std::make_unique<Keyboard>(), std::make_unique<Mouse>()) {}
 InputManager::InputManager(const Core* core, std::unique_ptr<Keyboard>&& kb, std::unique_ptr<Mouse>&& m) : core(core) {
     keyboard = std::move<>(kb);
     mouse = std::move<>(m);
@@ -31,7 +32,7 @@ void InputManager::pollEvents() {
                 if (triggerState == currentState
                     || (triggerState == PressedState::pressedOrHeld
                         && (currentState == PressedState::pressed || currentState == PressedState::held))) {
-                    inputEvents.push(it.second);
+                    inputEvents.push_back(it.second);
                 }
             }
         }
@@ -45,7 +46,7 @@ void InputManager::pollEvents() {
                 if (triggerState == currentState
                     || (triggerState == PressedState::pressedOrHeld
                         && (currentState == PressedState::pressed || currentState == PressedState::held))) {
-                    inputEvents.push(it.second);
+                    inputEvents.push_back(it.second);
                 }
             }
             mouse->dirty = false;
@@ -54,11 +55,10 @@ void InputManager::pollEvents() {
 }
 
 void InputManager::processEvents() {
-    while (!inputEvents.empty()) {
-        auto& func = inputEvents.front();
+    // note this will help with multi threading later
+    auto events = std::exchange(inputEvents, {});
+    for (const auto& func : events)
         func();
-        inputEvents.pop();
-    }
 }
 
 void InputManager::registerKeyboardEvent(std::pair<Keycodes, PressedState> key, std::function<void()> func) {
