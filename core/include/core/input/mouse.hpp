@@ -5,10 +5,10 @@
 #include <core/gfx/window.hpp>
 #include <core/input/enum.hpp>
 
+
 namespace starlight::core::input {
 
 class Mouse {
-    #include <core/input/enum.hpp>
     friend class InputManager;
     using Window = starlight::core::gfx::Window;
 

@@ -4,10 +4,14 @@
 
 namespace starlight::core::gfx {
 class GLEW {
-  public:
-    GLEW() {
-        if (glewInit() != GLEW_OK) {
-            THROW("glewInit failed")
+    const Core* core;
+    public : GLEW(const Core* core):core(core) {
+          const auto& logger = this->core->logManager->get(core->loggerName);
+          logger->debug("initalising GLEW");
+          glewExperimental = GL_TRUE;
+          if (glewInit() != GLEW_OK) {
+              logger->debug("initalising GLEW failed");
+              THROW("glewInit failed")
         }
     }
 

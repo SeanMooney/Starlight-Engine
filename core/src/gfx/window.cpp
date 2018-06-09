@@ -2,10 +2,14 @@
 
 namespace starlight::core::gfx {
 
-Window::Window(const Core* core, const int width, const int height, const char* title)
+Window::Window(const Core* core, const int width, const int height, const char* title, const int major, const int minor)
     : core(core), width(width), height(height), ratio(width / (float)height) {
     const auto& logger = this->core->logManager->get(core->loggerName);
     logger->info("creating window({}): height={} width={}",title,width,height);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     init(width, height, title);
 }
 Window::~Window() { destroy(); }

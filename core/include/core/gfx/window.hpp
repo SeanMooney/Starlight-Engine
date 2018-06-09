@@ -15,7 +15,7 @@ class STARLIGHTAPI Window {
   public:
     int width, height;
     float ratio;
-    Window(const Core* core, const int width = 800, const int height = 600, const char* title = "Starlight-Core");
+    Window(const Core* core, const int width = 800, const int height = 600, const char* title = "Starlight-Core", const int major=4, const int minor=0);
     ~Window();
     GLFWwindow* get() const noexcept;
 };

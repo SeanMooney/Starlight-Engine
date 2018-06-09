@@ -5,6 +5,7 @@
 #include <example/game.hpp>
 
 using Window = starlight::core::gfx::Window;
+using Renderer = starlight::core::gfx::Renderer;
 using Keycodes = starlight::core::input::Keycodes;
 using MouseButtons = starlight::core::input::MouseButtons;
 using Input = starlight::core::input::InputManager;
@@ -19,12 +20,20 @@ Game::Game(const std::string& path) {
 
 void Game::init() {
     core = std::make_unique<Core>();
+    const auto& logger = this->core->logManager->get(core->loggerName);
     glfw = std::make_unique<GLFW>(core.get());
+    logger->debug("GLFW Version: {}",glfw->getVersionString());
     window = std::make_unique<Window>(core.get(), 1920, 1080, "Starlight Example");
+    glew = std::make_unique<GLEW>(core.get());
+    logger->debug("OPENGL Version: {}",glGetString(GL_VERSION));
+    logger->debug("OPENGL Renderer: {}", glGetString(GL_RENDERER));
     input = std::make_unique<Input>(core.get());
     input->registerWindowCallback(window.get());
     registerKeyboardCallbacks();
     registerMouseCallbacks();
+    // move to renderer
+    glEnable(GL_DEPTH_TEST); // enable depth-testing
+    glDepthFunc(GL_LESS);    // depth-testing interprets a smaller value as "closer"
 }
 
 // TODO: replase with loging framework.
@@ -89,12 +98,13 @@ void Game::run() const {
     int currentFrameNumber = 0;
 #endif
     /* Loop until the user closes the window */
+    Renderer renderer{core.get(),window.get()};
     while (!glfwWindowShouldClose(windowPTR)) {
         /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(windowPTR);
+        renderer.submit();
+        renderer.flush();
+        renderer.present();
 
         /* Poll for and process events */
         glfwPollEvents();

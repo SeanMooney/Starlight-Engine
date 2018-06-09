@@ -11,7 +11,10 @@ void GLFW::destroy() const noexcept {
         glfwTerminate();
 }
 
-GLFW::GLFW(const Core* core):core(core) {
+std::string GLFW::getVersionString() const noexcept {return glfwGetVersionString();}
+
+GLFW::GLFW(const Core* core)
+    : core(core) {
     const auto& logger = this->core->logManager->get(core->loggerName);
     logger->info("GLFW initalising");
     ret = glfwInit();
@@ -20,6 +23,7 @@ GLFW::GLFW(const Core* core):core(core) {
         destroy();
         THROW("glfwInit failed");
     }
+    
     glfwSetErrorCallback(error_callback);
     logger->info("GLFW initalised");
 }

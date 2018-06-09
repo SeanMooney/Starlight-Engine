@@ -1,6 +1,8 @@
 #pragma once
-#include <GLFW/glfw3.h>
 #include <core/core.hpp>
+#include <core/gfx/gl.hpp>
+
+#include <GLFW/glfw3.h>
 
 #include <functional>
 
@@ -11,8 +13,10 @@ class STARLIGHTAPI GLFW {
     void destroy() const noexcept;
     static void error_callback(int error, const char* description);
 
-  public : int ret;
+  public:
+    int ret;
     GLFW(const Core* core);
     ~GLFW();
+    std::string getVersionString() const noexcept;
 };
-}
+} // namespace starlight::core::gfx

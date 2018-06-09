@@ -10,10 +10,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 # Create a library called "core" which includes the header file "core.hpp".
 # The extension is already found. Any number of sources could be listed here.
 set (CORE_INCLUDE_files include/core/core.hpp  include/core/gfx/gfx.hpp
-     include/core/gfx/gl.hpp include/core/gfx/window.hpp include/core/gfx/glfw.hpp
+     include/core/gfx/gl.hpp include/core/gfx/window.hpp 
+     include/core/gfx/glfw.hpp include/core/gfx/renderer.hpp
      include/core/input/keyboard.hpp include/core/input/mouse.hpp
      include/core/input/manager.hpp include/core/utils/file.hpp
-     include/core/utils/log.hpp)
+     include/core/utils/log.hpp include/core/input/enum.hpp)
 
      set (CORE_SRC src/gfx/window.cpp src/gfx/glfw.cpp 
           src/input/keyboard.cpp src/input/mouse.cpp src/input/manager.cpp
